@@ -1,0 +1,11 @@
+.git
+\.DS_Store
+LICENSE
+VERSION
+README.md
+Changelog.md
+Makefile
+BuildDockerImage.cmd
+RunDockerImage.cmd
+src/MarktenEnForenWeb/bin
+src/MarktenEnForenWeb/obj

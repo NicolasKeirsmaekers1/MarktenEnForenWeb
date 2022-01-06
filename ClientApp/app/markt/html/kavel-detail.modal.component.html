@@ -1,0 +1,73 @@
+﻿﻿<div *ngIf="kavel">
+    <form [formGroup]="kavelDetailForm" ngNoForm autocomplete="off">
+        <div class="modal-header">
+            <button aria-label="Close" class="close" type="button" (click)="dialog.close(false)">
+                <span aria-hidden="true">×</span>
+            </button>
+            <h3 class="modal-title">Kavel details</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div *ngIf="context.hideKlant">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-group">
+                            <label>Oude naam</label>
+                            <div [ngClass]="{ 'has-error': kavelDetailForm.get('oudeNaam').invalid && kavelDetailForm.get('oudeNaam').dirty, 'has-success': kavelDetailForm.get('oudeNaam').valid && kavelDetailForm.get('oudeNaam').dirty, 'has-feedback': true }">
+                                <input type="text" class="form-control" formControlName="oudeNaam" />
+                            </div>
+                            <div *ngIf="kavelDetailForm.get('oudeNaam').dirty && !kavelDetailForm.get('oudeNaam').valid">
+                                <p *ngIf="kavelDetailForm.get('oudeNaam').errors" class="text-danger">
+                                    {{formErrors.oudeNaam}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                    </div>
+                </div>
+                <div *ngIf="!context.hideKlant">
+                    <div class="col-xs-12 col-md-4">
+                        <div class="form-group">
+                            <label>Oude naam</label>
+                            <input type="text" class="form-control" formControlName="oudeNaam" />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <label>Klant</label>
+                        <br>
+                        <label>{{kavel.klant.firmanaam}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <div class="form-group">
+                        <label>Latitude</label>
+                        <input type="text" class="form-control" formControlName="latitude" />
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="form-group">
+                        <label>Longitude</label>
+                        <input type="text" class="form-control" formControlName="longitude" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="checkbox">
+                        <!--<div *ngIf="kavel.mogelijkheidDieptekavel == true">-->
+                        <label><input type="checkbox" formControlName="mogelijkheidDieptekavel" checked>Is dieptekavel mogelijk</label>
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!kavelDetailForm.valid">Kavel bewaren</button>
+            <button type="button" class="btn btn-default" (click)="dialog.close(false)">Annuleren</button>
+        </div>
+    </form>
+</div>

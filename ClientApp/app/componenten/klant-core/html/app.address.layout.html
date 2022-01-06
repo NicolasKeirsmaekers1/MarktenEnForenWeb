@@ -1,0 +1,30 @@
+﻿<div [formGroup]="addressForm">
+    <div class="row">
+        <div class="col-xs-12 col-md-10">
+            <form-group label="Straat">
+                <input class="form-control" type="text" formControlName="straat" />
+                <help-block type="required">Straat is verplicht</help-block>
+            </form-group>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <form-group label="Nr">
+                <input class="form-control" type="text" formControlName="nr" />
+                <help-block type="required">Nr is verplicht</help-block>
+            </form-group>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <form-group label="Postcode">
+                <input class="form-control" type="text" formControlName="postcode" />
+                <help-block type="required">Postcode is verplicht</help-block>
+            </form-group>
+        </div>
+        <div class="col-xs-12 col-md-10">
+            <form-group label="Gemeente">
+                <input class="form-control" type="text" formControlName="gemeente" />
+                <help-block type="required">Gemeente is verplicht</help-block>
+            </form-group>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,262 @@
+﻿<div *ngIf="intake">
+    <div class="row">
+        <div class="col-xs-12">
+            <mafo-panel selector="title" [collapsable]="false" [open]="true">
+                <mafo-panel-heading>
+                    <h3 id="title-wachtlijst-intake-detail"><span class="fa fa-list-alt"></span>&nbsp;{{pageTitle}}</h3>
+                </mafo-panel-heading>
+                <mafo-panel-actions>
+                    <a id="bewerk-intake-button" *ngIf="!reservatie &&(updateAanvraag | async) && !deleted && !stopgezet" class="btn btn-primary" routerLink={{routerlink}}>
+                        <i class="fa fa-pencil"></i>
+                        <span>&nbsp;&nbsp;Bewerk</span>
+                    </a>
+                </mafo-panel-actions>
+            </mafo-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <mafo-panel id="registratie-wachtlijst-klant-section" selector="klant" [collapsable]="false" [open]="true">
+                <mafo-panel-heading>
+                    <h5>KLANT</h5>
+                </mafo-panel-heading>
+                <mafo-panel-body>
+                    <div class="row pointercursor" routerLink="/klant/{{intake.klant.id}}">
+                        <div class="col-md-3">
+                            {{intake.klant.ondernemingsnr}}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>{{intake.klant.firmanaam}}</strong>
+                        </div>
+                        <div class="col-md-3">
+                            <div *ngIf="intake.klant.contactPersoon">
+                                <strong>{{intake.klant.contactPersoon}}</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="fa fa-phone-square"></i>
+                            &nbsp;&nbsp;
+                            <span *ngIf="hoofdcontactPersoon" class="marked-text">{{intake.klant.telefoon}}</span>
+                        </div>
+                        <div class="col-md-1">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </div>
+                    </div>
+                </mafo-panel-body>
+            </mafo-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <mafo-panel id="registratie-wachtlijst-aanvraag-section" selector="aanvraag" [collapsable]="false" [open]="true">
+                <mafo-panel-heading>
+                    <h5>AANVRAAG</h5>
+                </mafo-panel-heading>
+                <mafo-panel-actions>
+                    <span class="badge pull-right" style="margin: 2px;">{{status}}</span>
+                    <span class="badge pull-right" style="margin: 2px; background-color: red" *ngIf="deleted">DELETED</span>
+                </mafo-panel-actions>
+                <mafo-panel-body>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <strong>Datum Intake</strong>
+                        </div>
+                        <div class="col-sm-3">
+                            {{intake.datum | date: 'dd/MM/yyyy'}}
+                        </div>
+                        <div class="col-sm-3">
+                            <strong>Officiële Inschrijvingsdatum</strong>
+                        </div>
+                        <div class="col-sm-3">
+                            {{intake.officieleInschrijvingsDatum | date: 'dd/MM/yyyy'}}
+                        </div>  
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12"><hr></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <strong>Type</strong>
+                        </div>
+                        <div class="col-sm-3">
+                            <code-display type="Aanvraagsoort" [value]="intake.soortCode"></code-display>
+                        </div>
+                        <div class="col-sm-3">
+                            <strong>Soort Uitstalling</strong>
+                        </div>
+                        <div class="col-sm-3">
+                            <code-display type="Uitstalling" [value]="intake.uitstallingCode"></code-display>
+                        </div>                   
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12"><hr></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <strong>Verkoop</strong>
+                        </div>
+                        <div class="col-sm-3">
+                            <code-display type="Verkoop" [value]="intake.verkoopCode"></code-display>
+                        </div>
+                        <div class="col-sm-3">
+                            <strong>Elektriciteit</strong>
+                        </div>
+                        <div class="col-md-3">
+                            <code-display type="Elektriciteit" [value]="intake.elektriciteitCode"></code-display>
+                        </div>
+                        <div class="col-sm-6">
+                        </div>
+                    </div>
+                    <br />
+                </mafo-panel-body>
+            </mafo-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <product-panel id="registratie-wachtlijst-producten-section" [data]="intake.producten" [collapsable]="false" [edit]="false" [open]="true"></product-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <mafo-panel id="registratie-wachtlijst-markt-section" selector="markt" [collapsable]="false" [open]="true">
+                <mafo-panel-heading>
+                    <h5>
+                        MARKT
+                    </h5>
+                </mafo-panel-heading>
+                <mafo-panel-body>
+                    <div *ngIf="aanvraagMarkten">
+                        <div *ngFor="let aanvraagMarkt of aanvraagMarkten; let i=index; trackBy:i">
+                            <div class="row">
+                                <div class="col-sm-3 marked-text">
+                                    <form-group>
+                                        {{aanvraagMarkt.naam}}&nbsp;({{aanvraagMarkt.afkorting}})
+                                    </form-group>
+                                </div>
+                                <div class="col-sm-3">
+                                    <form-group>
+                                        {{aanvraagMarkt.aantalKavels}} {{aanvraagMarkt.aantalKavels > 1 ? "kavels" : "kavel"}}
+                                    </form-group>
+                                </div>
+                                <div class="col-sm-6">
+                                    <form-group>
+                                        <div class="pull-right">
+                                            <button id="kavels-toewijzen-button" class="btn btn-primary" (click)="showKavel(aanvraagMarkt)" [disabled]="kavelsToewijzenEdit" *ngIf="(intake.statusCode === aanvraagStatus.Geregistreerd && !deleted && !stopgezet && !toegewezen) && ((aanvraagMarkt.toewijsbareKavels > 0) || (aanvraagMarkt.toewijsbareKavels == 0 && (toewijzenAanvragenNietInAanmerking | async)) )">Kavels toewijzen</button>
+                                            <a class="btn btn-primary" routerLink="/markt/{{aanvraagMarkt.marktId}}">
+                                                <i class="fa fa-angle-right pull-right"></i>
+                                            </a>
+                                        </div>
+                                    </form-group>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="aanvraagMarkt.kavels">
+                                <div class="col-xs-12">
+                                    <br />
+                                    <mafo-panel [collapsable]="true" [open]="true">
+                                        <mafo-panel-heading >
+                                            <h5>
+                                                Kavels
+                                            </h5>
+                                        </mafo-panel-heading>
+                                        <mafo-panel-body>
+                                            <div *ngIf="kavelsLoading" [class.ajax-loading]="kavelsLoading" style="height:50px"></div>
+                                            <div class="row" >
+                                                <div class="col-xs-12">
+                                                    <a *ngFor="let kavel of kavelObservables" class="kavel-detail" (click)="selectKavel($event, aanvraagMarkt, kavel)">
+                                                        <span class="badge large" [ngClass]="setKavelColor(kavel)" style="margin: 2px;">{{kavel.oudeNaam}}</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </mafo-panel-body>
+                                        <mafo-panel-footer>
+                                            <div class="pull-right">
+                                                <button type="button" class="btn btn-primary" (click)="kavelsToewijzen(aanvraagMarkt)" [disabled]="assigningKavelsLoading">Bevestigen</button>
+                                                <button type="reset" class="btn btn-default" (click)="cancelSelectKavels(aanvraagMarkt)">Annuleren</button>
+                                            </div>
+                                        </mafo-panel-footer>
+                                    </mafo-panel>
+                                </div>
+                            </div>
+                            <hr *ngIf="i < aanvraagMarkten.length - 1" />
+                        </div>
+                    </div>
+                </mafo-panel-body>
+            </mafo-panel>
+        </div>
+    </div>
+    <div *ngIf="reservatie">
+        <div class="row">
+            <div class="col-xs-12">
+                <mafo-panel selector="weigeringen" [collapsable]="false" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>Weigeringstermijnen</h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-actions>
+                        <button type="button" class="btn btn-primary" *ngIf="!startWeigeringendisplay && !sluitWeigeringAfDisplay && kanWeigeringStarten" (click)="startWeigeringen()">Weigeringstermijn starten</button>
+                    </mafo-panel-actions>
+                    <mafo-panel-body>
+                        <dp-datagrid [data]="dataWeigering" [options]="gridWeigeringOptions" (fetchData)="fetchWeigeringData($event)" *ngIf="!startWeigeringendisplay && !sluitWeigeringAfDisplay">
+                            <ng-template #rowTemplate let-item="item" let-index="index">
+                                <td>
+                                    Termijn {{index + 1}}
+                                </td>
+                                <td>
+                                    {{item.startDatum | date: 'dd/MM/yyyy'}}
+                                </td>
+                                <td>{{item.weigeringsDatum | date: 'dd/MM/yyyy'}}</td>
+                                <td>{{item.motivatie}}</td>
+                            </ng-template>
+                            <ng-template #rowActions let-item="item" let-index="index">
+                                <button title="Weigering registreren" class="btn btn-primary btn-xs" (click)="afsluitenWeigering(item.id)" *ngIf="!item.weigeringsDatum">
+                                    <i class="fa fa-registered" aria-hidden="true"></i>
+                                </button>
+                                <button title="Weigering annuleren" class="btn btn-danger btn-xs" (click)="annuleerWeigeringsTermijn(item.id)" *ngIf="!item.weigeringsDatum">
+                                    <i class="fa fa-ban" aria-hidden="true"></i>
+                                </button>
+                            </ng-template>
+                        </dp-datagrid>
+                        <form [formGroup]="weigeringForm" *ngIf="startWeigeringendisplay || sluitWeigeringAfDisplay" (ngSubmit)="submitWeigering($event)">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h6>Weigeringstermijn starten</h6>
+                                    <hr />
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="startWeigeringendisplay">
+                                <div class="col-md-6">
+                                    <form-group label="Startdatum weigeringstermijn">
+                                        <datepicker formControlName="startDatum" startDate="-30d" (ngModelChange)="changeDate($event)"></datepicker>
+                                        <help-block type="required">Startdatum weigeringstermijn is vereist</help-block>
+                                    </form-group>
+                                </div>
+                                <div class="col-md-6">
+                                    <form-group label="Einddatum weigeringstermijn">
+                                        <datepicker formControlName="eindDatum"></datepicker>
+                                    </form-group>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="sluitWeigeringAfDisplay">
+                                <div class="col-md-6">
+                                    <form-group label="Weigeringsdatum">
+                                        <datepicker formControlName="weigeringsDatum"></datepicker>
+                                        <help-block type="required">Weigeringsdatum weigeringstermijn is vereist</help-block>
+                                    </form-group>
+                                </div>
+                                <div class="col-md-6">
+                                    <form-group label="Motivatie">
+                                        <textarea class="form-control" rows="5" formControlName="motivatie"></textarea>
+                                    </form-group>
+                                </div>
+                            </div>
+                            <div class="pull-right" *ngIf="startWeigeringendisplay || sluitWeigeringAfDisplay">
+                                <button type="submit" class="btn btn-primary">Bewaren</button>
+                                <button type="button" class="btn btn-default" (click)="cancelWeigering()">Annuleren</button>
+                            </div>
+                        </form>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+    </div>
+</div>

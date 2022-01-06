@@ -1,0 +1,328 @@
+﻿<div class="row" [formGroup]="standplaatsForm" [hidden]="kavelConfirmDisplayed">
+    <div class="col-xs-12 ">
+        <mafo-panel selector="standplaats" [collapsable]="true" [open]="true">
+            <mafo-panel-heading>
+                <h5>
+                    STANDPLAATS
+                </h5>
+            </mafo-panel-heading>
+            <mafo-panel-actions>
+                <span class="badge pull-right" style="margin: 2px;">{{data.markt.naam}}</span>
+            </mafo-panel-actions>
+            <mafo-panel-body>
+                <div class="row" [hidden]="kavelConfirmDisplayed">
+                    <form-group>
+                        <label class="col-sm-6 col-md-3 control-label"><strong>Markt</strong></label>
+                        <div class="col-sm-6 col-md-3">
+                            <p class="form-control-static">{{data.markt.naam}}</p>
+                        </div>
+                    </form-group>
+                    <form-group>
+                        <label class="col-sm-6 col-md-3 control-label"><strong>Aantal kavels</strong></label>
+                        <div class="col-sm-6 col-md-3">
+                            <p class="form-control-static">{{data.aantalKavels}}&nbsp;kavels</p>
+                        </div>
+                    </form-group>
+                </div>
+                <hr style="margin: 5px;" />
+                <div class="row" [hidden]="kavelConfirmDisplayed">
+                    <form-group>
+                        <label class="col-sm-6 col-md-3 control-label"><strong>Begindatum</strong></label>
+                        <div class="col-sm-6 col-md-3">
+                            <p class="form-control-static" *ngIf="!edit">{{data.beginDatum | date: 'dd/MM/yyyy' | nullSafe}}</p>
+                            <datepicker formControlName="begindatum" *ngIf="edit"></datepicker>
+                            <help-block type="required">Begindatum is verplicht</help-block>
+                        </div>
+                    </form-group>
+                    <form-group>
+                        <label class="col-sm-6 col-md-3 control-label"><strong>Einddatum</strong></label>
+                        <div class="col-sm-6 col-md-3">
+                            <p class="form-control-static" *ngIf="!edit">{{data.eindDatum | date: 'dd/MM/yyyy' | nullSafe}}</p>
+                            <datepicker formControlName="einddatum" *ngIf="edit"></datepicker>
+                        </div>
+                    </form-group>
+                </div>
+                <hr style="margin: 5px;" />
+                <div class="row" [hidden]="kavelConfirmDisplayed">
+                    <form-group>
+                        <label class="col-sm-6 col-md-3 control-label"><strong>Soort uitstalling</strong></label>
+                        <div class="col-sm-6 col-md-3">
+                            <p class="form-control-static" *ngIf="!edit">
+                                <code-display type="Uitstalling" [value]="data.uitstalling.code"></code-display>
+                            </p>
+                            <code-select type="Uitstalling" formControlName="uitstallingCode" *ngIf="edit"></code-select>
+                        </div>
+                    </form-group>
+                    <form-group>
+                        <label class="col-sm-6 col-md-3 control-label"><strong>Verkoop</strong></label>
+                        <div class="col-sm-6 col-md-3">
+                            <p class="form-control-static" *ngIf="!edit">
+                                <code-display type="Verkoop" [value]="data.verkoop.code"></code-display>
+                            </p>
+                            <code-select type="Verkoop" formControlName="verkoopCode" *ngIf="edit"></code-select>
+                        </div>
+                    </form-group>
+                </div>
+                <hr style="margin-top: 5px;" />
+                <div class="row" [hidden]="kavelConfirmDisplayed">
+                    <div class="col-md-12">
+                        <product-panel id="producten-section" [formGroup]="standplaatsForm" [data]="data.producten" [edit]="edit" [open]="true"></product-panel>
+                    </div>
+                </div>
+                <div class="row" [hidden]="kavelConfirmDisplayed">
+                    <div class="col-md-12">
+                        <mafo-panel id="kavels-section" selector="kavels" [collapsable]="true" [open]="true">
+                            <mafo-panel-heading>
+                                <h5>
+                                    Kavels
+                                </h5>
+                            </mafo-panel-heading>
+                            <mafo-panel-body>
+                                <div class="row" *ngIf="kavels && !lessKavels" [hidden]="kavelConfirmDisplayed">
+                                    <div class="col-xs-12" (mousedown)="mousedown($event)">
+                                        <ng-container *ngFor="let kavel of kavels">
+                                            <a *ngIf="!kavel.hidden" class="kavel-detail" [attr.data-id]="kavel.id">
+                                                <span class="badge large" [ngClass]="setKavelColor(kavel)">{{kavel.oudeNaam}}</span>
+                                            </a>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="edit && !lessKavels && (data.abonnementStatus.code === 'LOPEND' || data.abonnementStatus.code === 'OPGESCHORT')" [hidden]="kavelConfirmDisplayed">
+                                    <div class="col-xs-12">
+                                        <button type="button" class="btn btn-primary" (click)="lessKavels =!lessKavels" *ngIf="!allBezetTeBedelenKavels">
+                                            <i class="fa fa-pencil"></i> Aantal kavels verminderen
+                                        </button>
+                                        <button type="button" class="btn btn-default" (click)="cancelScaleDown()" *ngIf="bezetTeBedelenKavels">
+                                            <i class="fa fa-ban"></i> Inkrimping annuleren
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="edit && lessKavels">
+                                    <div class="col-xs-12">
+                                        
+                                        <div>
+                                            <ng-container *ngFor="let kavel of kavels">
+                                                <a *ngIf="!kavel.hidden" class="kavel-detail" [attr.data-id]="kavel.id" (click)="selectKavel($event, kavel)">
+                                                    <span class="badge large">{{kavel.oudeNaam}}</span>
+                                                </a>
+                                            </ng-container>
+                                            <p>Kies de kavels om te verwijderen van dit abonnement</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-3">
+                                            <b>Startdatum:</b>
+                                            <datepicker [startDate]="eerstVolgendeKwartaalDatum" formControlName="kavelDatum" [dates]="mogelijkeData"></datepicker>
+                                            <help-block type="required">Startdatum is verplicht</help-block>
+                                        </div>
+                                        <div class="col-sm-6 col-md-12">
+                                            <button type="button" class="btn btn-warning" (click)="lessKavels = !lessKavels; selectedKavelsLeegmaken()">
+                                                <i class="fa fa-times"></i> Annuleer
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mafo-panel-body>
+                        </mafo-panel>
+                    </div>
+                </div>
+            </mafo-panel-body>
+            <mafo-panel-footer>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" (click)="OpenPanelsStandplaats(); edit = true" *ngIf="!edit">
+                        <i class="fa fa-pencil"></i> Info standplaats wijzigen
+                    </button>
+                    <div *ngIf="edit && canUpdate | async">
+                        <button type="button" class="btn btn-primary" (click)="bewaren()">Bewaren</button>
+                        <button type="button" class="btn btn-default" (click)="edit=!edit; lessKavels=false">Annuleren</button>
+                    </div>
+                </div>
+            </mafo-panel-footer>
+        </mafo-panel>
+    </div>
+</div>
+<div id="kavel-detail-wrapper" class="body-content right-slider" [ngClass]="{'slide' : detailDisplayed }">
+    <div class="row" [hidden]="kavelConfirmDisplayed">
+        <div class="col-xs-12">
+            <button class="btn btn-primary" (click)="hideDetail()">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <br />
+            <br />
+        </div>
+    </div>
+    <div *ngIf="kavel">
+        <div class="row" [hidden]="kavelConfirmDisplayed">
+            <div class="col-xs-12">
+                <mafo-panel selector="kavel" [collapsable]="false" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>
+                            Kavel details
+                        </h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Kavelnummer</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.oudeNaam}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Kavelstatus</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{toDisplayFormat(kavel.kavelStatus)}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Dieptekavel mogelijk</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.mogelijkheidDieptekavel ? "Ja" : "Nee"}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+        <div class="row" *ngIf="kavel && kavel.abonnement" [hidden]="kavelConfirmDisplayed">
+            <div class="col-xs-12">
+                <mafo-panel selector="abonnement" [collapsable]="true" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>
+                            Abonnement
+                        </h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row" [hidden]="kavelConfirmDisplayed">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Firmanaam</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.firmaNaam}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">GSM</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.telefoon | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Hoofd contactpersoon</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.contactPersoon}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Begindatum</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.beginDatum | date: 'dd/MM/yyyy' | nullSafe }}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Einddatum</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{ kavel.abonnement.eindDatum | date: 'dd/MM/yyyy' | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Status</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.status | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Soort uitstalling</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.uitstalling| nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Verkoop</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.verkoop| nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Elektriciteit</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.elektriciteit| nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Kavels</label><br />
+                                    <ng-container *ngFor="let kavel of kavel.abonnement.abonnementKavels">
+                                        <a *ngIf="!kavel.hidden" class="kavel-detail" [attr.data-id]="kavel.id">
+                                            <span class="badge large" [ngClass]="setKavelColor(kavel)">{{kavel.oudeNaam}}</span>
+                                        </a>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+        <div class="row" *ngIf="kavel && kavel.abonnement" [hidden]="kavelConfirmDisplayed">
+            <div class="col-xs-12">
+                <mafo-panel selector="producten" [collapsable]="true" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>
+                            Producten
+                        </h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="list-group">
+                                    <div class="list-group-item" *ngFor="let product of kavel.abonnement.producten">
+                                        <h4 class="list-group-item-heading">{{product.omschrijving}}</h4>
+                                        <p class="list-group-item-text">{{product.detail}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+        <div class="row" [hidden]="kavelConfirmDisplayed">
+            <div class="col-xs-12">
+                <mafo-panel selector="opmerkingen" [collapsable]="true" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>
+                            Opmerkingen
+                        </h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="list-group">
+                                    <div class="list-group-item" *ngFor="let kavelOpmerking of kavel.opmerkingen">
+                                        <span class="KavelOpmerking">{{ (kavelOpmerking.createdOn | date: 'dd/MM/yyyy') || ( currentDate | date: 'dd/MM/yyyy' ) }}</span>
+                                        <p class="list-group-item-text">{{kavelOpmerking.opmerking}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="5" [(ngModel)]="opmerking"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" [hidden]="kavelConfirmDisplayed">
+                            <div class="col-xs-12">
+                                <div class="pull-right">
+                                    <button class="btn btn-primary" type="button" (click)="updateKavelOpmerking($event)">Opmerking toevoegen</button>
+                                </div>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+    </div>
+</div>

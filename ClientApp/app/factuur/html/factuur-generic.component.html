@@ -1,0 +1,63 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="title" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <h3>
+                    <span class="fa fa-dot-circle-o" id="title-factuur"></span>&nbsp;
+                    {{pageTitle}}
+                </h3>
+            </mafo-panel-heading>
+            <mafo-panel-actions>
+                <div id="factuur-generatie-melding">{{factuurGeneratieMelding}}</div>
+                <a id="genereer-facturen-button" class="btn btn-primary" [ngClass]="{'disabled' : factuurGeneratieRunning }" *ngIf="showGenerateButton && genereer | async" (click)="generateFacturen()">
+                    <i class="fa " [ngClass]="{ 'fa-spin': factuurGeneratieRunning, 'fa-refresh': !facturatieAfgerond, 'fa-check':facturatieAfgerond }"></i>
+                    <span class="hidden-sm hidden-xs">&nbsp;&nbsp;Genereer facturen voor volgend semester</span>
+                </a>
+                <a id="sap-button" class="btn btn-primary" [ngClass]="{'disabled' : factuurGeneratieRunning  || geenFacturen }" *ngIf="showSendToSapButton && stuurDoorNaarSap | async" (click)="sendFacturenToSAP()">
+                    <i class="fa fa-envelope"></i>
+                    <span class="hidden-sm hidden-xs">&nbsp;&nbsp;{{sapButtonText}}</span>
+                </a>
+            </mafo-panel-actions>
+            <mafo-panel-body>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div *ngIf="hasMateriaalCodeError" class="alert alert-danger" role="alert">
+                            {{errorMessage}} Het instellen van de SAP materiaalcode gebeurt bij <a routerLink="/beheer/variabelen/standplaatssapmateriaalcode">Beheer Variabelen</a>.
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <form [formGroup]="searchForm">
+                                <form-group>
+                                    <search (search)="searchFacturen($event)" formControlName="searchField"></search>
+                                </form-group>
+                            </form>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <dp-datagrid [data]="data" [options]="gridOptions" (fetchData)="fetchData($event)" (rowClicked)="rowClicked($event)">
+                                <ng-template #rowTemplate let-item="item" let-index="index">
+                                    <td>{{item.createdOn | date: 'dd/MM/yyyy'}}</td>
+                                    <td>{{item.klant.firmanaam | nullSafe}}</td>
+                                    <td>{{item.klant.ondernemingsnr | nullSafe}}</td>
+                                    <td>{{item.district.omschrijving | nullSafe}}</td>
+                                    <td>{{item.factuurNummer | nullSafe}}</td>
+                                    <td>€ {{item.bedrag | nullSafe}}</td>
+                                </ng-template>
+                                <ng-template #rowActions let-item="item" let-index="index">
+                                    <button title="Detail" class="btn btn-default btn-xs btn-info" [attr.data-id]="item.id" (click)="showDetailModal(item.id)">
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                </ng-template>
+                            </dp-datagrid>
+                        </div>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

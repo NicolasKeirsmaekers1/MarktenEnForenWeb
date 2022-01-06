@@ -1,0 +1,132 @@
+﻿.kavel-detail {
+    width: 80px;
+}
+#KavelOpmerking{
+    color: grey;
+    font-size: 10px;
+}
+.badge, .kavel-detail {
+    cursor: pointer;
+    text-decoration: none;
+}
+.badge {
+    border-radius: 5px;
+    margin: 2px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.badge-border {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.right-slider {
+    border-left: 2px solid #e5e5e5;
+    position: fixed;
+    min-height: 100%;
+    /*overflow: hidden;*/
+    overflow-y: scroll;
+    background-color: #f3f3f3;
+    top: 0;
+    padding-top: 70px;
+    -ms-opacity: 0;
+    opacity: 0;
+    -ms-transition: right .5s cubic-bezier(0, 1, 0.5, 1), opacity .3s cubic-bezier(0, 1, 0.5, 1);
+    -o-transition: right .5s cubic-bezier(0, 1, 0.5, 1), opacity .3s cubic-bezier(0, 1, 0.5, 1);
+    -webkit-transition: right .5s cubic-bezier(0, 1, 0.5, 1), opacity .3s cubic-bezier(0, 1, 0.5, 1);
+    transition: right .5s cubic-bezier(0, 1, 0.5, 1), opacity .3s cubic-bezier(0, 1, 0.5, 1);
+}
+
+    .right-slider.slide {
+        right: 0 !important;
+        opacity: 1 !important;
+    }
+
+/*Detail*/
+#marktboekje-kavel-detail {
+    width: 100%;
+    right: -100%;
+    z-index: 12;
+}
+
+    #marktboekje-kavel-detail.slide {
+        border-left: 0;
+    }
+
+@media (min-width: 768px) {
+    #marktboekje-kavel-detail.slide {
+        left: 220px;
+        padding-right: 240px;
+    }
+}
+/*DagpasOverview*/
+#marktboekje-dagpas-overview {
+    width: 100%;
+    right: -100%;
+    /*z-index: 9;*/
+}
+
+    #marktboekje-dagpas-overview.slide {
+        border-left: 0;
+    }
+
+@media (min-width: 768px) {
+    #marktboekje-dagpas-overview.slide {
+        left: 220px;
+        padding-right: 240px;
+    }
+}
+
+/*Tooltip*/
+#marktboekje-kavel-tooltip {
+    border-top: 2px solid #e5e5e5;
+    position: fixed;
+    height: 25%;
+    background-color: #f3f3f3;
+    width: 100%;
+    bottom: -25%;
+    left: 0;
+    z-index: 10;
+    -ms-opacity: 0;
+    opacity: 0;
+    -ms-transition: bottom .5s cubic-bezier(0, 1, 0.5, 1), opacity .5s cubic-bezier(0, 1, 0.5, 1);
+    -o-transition: bottom .5s cubic-bezier(0, 1, 0.5, 1), opacity .5s cubic-bezier(0, 1, 0.5, 1);
+    -webkit-transition: bottom .5s cubic-bezier(0, 1, 0.5, 1), opacity .5s cubic-bezier(0, 1, 0.5, 1);
+    transition: bottom .5s cubic-bezier(0, 1, 0.5, 1), opacity .5s cubic-bezier(0, 1, 0.5, 1);
+}
+
+    #marktboekje-kavel-tooltip.slide {
+        bottom: 0;
+        opacity: 1;
+    }
+
+@media (min-width: 768px) {
+    #marktboekje-kavel-tooltip {
+        left: 220px;
+        height: 20%;
+        bottom: -20%;
+    }
+}
+
+/*Filter*/
+#marktboekje-kavel-filter {
+    width: 200px;
+    right: -200px;
+    z-index: 11;
+}
+
+    #marktboekje-kavel-filter .checkbox-list ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        #marktboekje-kavel-filter .checkbox-list ul li {
+            width: 100%;
+            padding: 5px 0;
+            margin-bottom: 5px;
+        }
+
+        

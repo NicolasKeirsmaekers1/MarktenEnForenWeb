@@ -1,0 +1,35 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="klant" [collapsable]="true" [open]="true">
+            <mafo-panel-heading>
+                <h5>
+                    KLANT
+                </h5>
+            </mafo-panel-heading>
+            <mafo-panel-actions>
+                <span class="badge pull-right" style="margin: 2px;">{{data.klant.ondernemingsnr | stringformat : 'xxxx.xxx.xxx'}}</span>
+            </mafo-panel-actions>
+            <mafo-panel-body>
+                <div class="row pointercursor" routerLink="/klant/{{data.klant.id}}">
+                    <div class="col-md-3">
+                        {{data.klant.ondernemingsnr | stringformat : 'xxxx.xxx.xxx'}}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>{{data.klant.firmanaam}}</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>{{data.klant.contactpersoon.voornaam}} {{data.klant.contactpersoon.naam}}</strong>
+                    </div>
+                    <div class="col-md-2">
+                        <i class="fa fa-phone-square"></i>
+                        &nbsp;&nbsp;
+                        <span class="marked-text">{{data.klant.contactpersoon.telefoon}}</span>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="title" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <h3 id="title-hernieuwing-inschrijving">
+                    <span class="fa fa-dot-circle-o"></span>&nbsp;
+                    Hernieuwing inschrijving
+                </h3>
+            </mafo-panel-heading>
+            <mafo-panel-body>
+                <div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <search (search)="search($event)"></search>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <dp-datagrid [data]="data" [options]="gridOptions" (fetchData)="fetchData($event)">
+                                <ng-template #rowTemplate let-item="item" let-index="index">
+                                    <td>{{item.klant.firmanaam}}</td>
+                                    <td>{{item.klant.ondernemingsnr}}</td>
+                                    <td>{{item.markt.naam}}</td>
+                                    <td>{{berekenVervaldag(item.datumLaatsteHernieuwing) | date: 'dd/MM/yyyy'}}</td>
+                                </ng-template>
+                                <ng-template #rowActions let-item="item" let-index="index">
+                                    <button *ngIf="item.status=='GEREGISTREERD'" title="Verwijderen" class="btn btn-danger btn-xs btn-danger" [attr.data-id]="item.id" (click)="showModalDelete(item)">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                    <button title="Hernieuw" class="btn btn-success btn-xs btn-success" [attr.data-id]="item.id" (click)="showModalRenew(item)">
+                                        <i class="fa fa-repeat"></i>
+                                    </button>
+                                </ng-template>
+                            </dp-datagrid>
+                        </div>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

@@ -1,0 +1,121 @@
+﻿<form [formGroup]="dieptekavelForm" ngNoForm autocomplete="off">
+    <div class="row">
+        <div class="col-xs-12" ng-if="data.dieptekavelStatusCode?.toUpperCase() === 'NIETBESCHIKBAAR'">
+            <mafo-panel selector="dieptekavels" [collapsable]="data.dieptekavelStatusCode?.toUpperCase() !== 'NIETBESCHIKBAAR'" [open]="false">
+                <mafo-panel-heading>
+                    <h5>
+                        DIEPTEKAVELS
+                    </h5>
+                </mafo-panel-heading>
+                <mafo-panel-actions>
+                    <span class="badge pull-right text-uppercase" style="margin: 2px;">
+                        <code-display type="DIEPTEKAVELSTATUS" [value]="data.dieptekavelStatusCode"></code-display>
+                    </span>
+                </mafo-panel-actions>
+                <mafo-panel-body>
+                    <div *ngIf="!edit">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-3">
+                                <strong>Status</strong>
+                            </div>
+                            <div class="col-xs-6 col-md-9">
+                                <span class="form-control-static">
+                                    <code-display type="DIEPTEKAVELSTATUS" [value]="data.dieptekavelStatusCode"></code-display>
+                                </span>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+                    <div class="row">
+                        <div class=" col-xs-6 col-md-3">
+                            <strong>Aanvraagdatum gebruik dieptekavels</strong>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <div *ngIf="!edit">
+                                <span class="form-control-static">
+                                    {{data.dieptekavelsAanvraagDatum | date: 'dd/MM/yyyy' | nullSafe}}
+                                </span>
+                            </div>
+                            <div *ngIf="edit">
+                                <form-group>
+                                    <datepicker formControlName="dieptekavelsAanvraagDatum"></datepicker>
+                                    <help-block type="required">Aanvraagdatum is vereist</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <strong>Diepte</strong>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <div *ngIf="!edit">
+                                {{data.dieptekavelsDiepte | nullSafe}} meter
+                            </div>
+                            <div *ngIf="edit">
+                                <form-group>
+                                    <select class="form-control" formControlName="dieptekavelsDiepte">
+                                        <option value="">- maak uw keuze</option>
+                                        <option value="1">1 meter</option>
+                                        <option value="2">2 meter</option>
+                                        <option value="3">3 meter</option>
+                                    </select>
+                                    <help-block type="required">Diepte is vereist</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-xs-6 col-md-3">
+                            <strong>Begindatum gebruik dieptekavels</strong>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <div *ngIf="!edit">
+                                {{data.dieptekavelsBeginDatum | date: 'dd/MM/yyyy' | nullSafe}}
+                            </div>
+                            <div *ngIf="edit">
+                                <form-group>
+                                    <datepicker formControlName="dieptekavelsBeginDatum"></datepicker>
+                                    <help-block type="required">Begindatum is vereist</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <strong>Einddatum gebruik dieptekavels</strong>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <div *ngIf="!edit">
+                                {{data.dieptekavelsEindDatum | date: 'dd/MM/yyyy' | nullSafe}}
+                            </div>
+                            <div *ngIf="edit">
+                                <datepicker formControlName="dieptekavelsEindDatum"></datepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-xs-6 col-md-3">
+                            <strong>Kavels</strong>
+                        </div>
+                        <div class="col-xs-6 col-md-9">
+                            <span *ngFor="let kavel of data.kavels; let i=index; trackBy:i" class="badge" style="margin-right: 2px;"
+                                  [ngClass]="setKavelColor(kavel.diepteKavelStatusCode)"
+                                  (click)="editDiepteKavelStatus(kavel)"
+                                  [attr.data-value]="kavel.diepteKavelStatusCode"
+                                  [title]="setKavelTitle()">{{kavel.oudeNaam}}</span>
+                        </div>
+                    </div>
+                </mafo-panel-body>
+                <mafo-panel-footer>
+                    <div class="pull-right" *ngIf="updateAbonnement | async">
+            
+                        <button type="button" class="btn btn-primary" value="data.dieptekavelStatusCode?.toUpperCase() === 'NIET BESCHIKBAAR'" (click)="toggleEditDieptekavels(kavel)" *ngIf="!edit">
+                            <i class="fa fa-pencil"></i>&nbsp;Info dieptekavels wijzigen
+                        </button>
+                        <button type="button" class="btn btn-primary" (click)="saveAbonnementDiepteKavelsWijziging()" *ngIf="edit">Bewaren</button>
+                        <button type="button" class="btn btn-default" (click)="toggleEditDieptekavels(kavel)" *ngIf="edit">Annuleren</button>
+                    </div>
+                </mafo-panel-footer>
+            </mafo-panel>
+        </div>
+    </div>
+</form>

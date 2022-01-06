@@ -1,0 +1,80 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="title" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <h3 class="row">
+                    <span class="col-xs-12">
+                        <span class="fa fa-list-alt" id="title-huidig"></span>&nbsp;
+                        {{pageTitle}}
+                    </span>
+                </h3>
+            </mafo-panel-heading>
+            <mafo-panel-body>
+                <div class="row">
+                    <div class="col-md-6">
+                        <search id="abonnement-input-search" [(ngModel)]="abonnementSearchCriteria.query" (ngModelChange)="onFilterChange()"></search>
+                    </div>
+                    <div class="col-md-3">
+                        <code-select id="verkoop-dropdown" placeholder="- Verkoop -" type="Verkoop" [(ngModel)]="abonnementSearchCriteria.verkoopCode" (ngModelChange)="onFilterChange()"></code-select>
+                    </div>
+                    <div class="col-md-3">
+                        <code-select id="status-dropdown" placeholder="- Status -" type="Abonnementstatus" [(ngModel)]="abonnementSearchCriteria.statusCode" (ngModelChange)="onFilterChange()"></code-select>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-3">
+                        <select id="markt-dropdown" class="form-control" [class.ajax-loading]="isLoading" [attr.disabled]="isLoading || disabled ? true : null" [(ngModel)]="abonnementSearchCriteria.marktId" (ngModelChange)="fetchData(page)">
+                            <option value="0">- Markt -</option>
+                            <option *ngFor="let markt of markten" [value]="markt.id">{{markt.naam}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <product-select id="product-dropdown" placeholder="- Product -" [(ngModel)]="abonnementSearchCriteria.productId" (change)="onFilterChange()"></product-select>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <datepicker id="begindatum-datepicker" placeholder="Begindatum" [(ngModel)]="abonnementSearchCriteria.beginDatum" (ngModelChange)="onFilterChange()"></datepicker>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <datepicker id="einddatum-datepicker" placeholder="Einddatum" [(ngModel)]="abonnementSearchCriteria.eindDatum" (ngModelChange)="onFilterChange()"></datepicker>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xs-12">
+                        <dp-datagrid [data]="abonnementen" [options]="gridOptions" (fetchData)="fetchData($event)" (rowClicked)="rowClicked($event)">
+                            <ng-template #rowTemplate let-item="item" let-index="i">
+                                <td>
+                                    {{item.markt.naam}}&nbsp;({{item.markt.afkorting}})
+                                </td>
+                                <td>
+                                    {{item.firmanaam}}
+                                </td>
+                                <td>{{item.ondernemingsNr}}</td>
+                                <td>
+                                    {{concatProducts(item.producten)}}
+                                </td>
+                                <td>
+                                    <code-display type="Verkoop" [value]="item.verkoopCode"></code-display>
+                                </td>
+                                <td>
+                                    {{item.begindatum | date:'dd/MM/yyyy'}}
+                                </td>
+                                <td>
+                                    {{item.einddatum | date:'dd/MM/yyyy'}}
+                                </td>
+                                <td>
+                                    <code-display type="AbonnementStatus" [value]="item.statusCode"></code-display>
+                                </td>
+                            </ng-template>
+                        </dp-datagrid>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

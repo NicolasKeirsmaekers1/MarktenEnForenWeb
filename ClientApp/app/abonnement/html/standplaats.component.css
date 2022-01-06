@@ -1,0 +1,64 @@
+﻿.kavel-detail {
+    width: 80px;
+}
+.badge, .kavel-detail {
+    cursor: pointer;
+    text-decoration: none;
+}
+.badge {
+    border-radius: 5px;
+    margin: 2px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.badge-border {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.right-slider {
+    border-left: 2px solid #e5e5e5;
+    position: fixed;
+    min-height: 100%;
+    /*overflow: hidden;*/
+    overflow-y: scroll;
+    background-color: #f3f3f3;
+    top: 0;
+    padding-top: 70px;
+    -ms-opacity: 0;
+    opacity: 0;
+    -ms-transition: right .5s cubic-bezier(0, 1, 0.5, 1), opacity .3s cubic-bezier(0, 1, 0.5, 1);
+    -o-transition: right .5s cubic-bezier(0, 1, 0.5, 1), opacity .3s cubic-bezier(0, 1, 0.5, 1);
+    -webkit-transition: right .5s cubic-bezier(0, 1, 0.5, 1), opacity .3s cubic-bezier(0, 1, 0.5, 1);
+    transition: right .5s cubic-bezier(0, 1, 0.5, 1), opacity .3s cubic-bezier(0, 1, 0.5, 1);
+}
+
+    .right-slider.slide {
+        right: 0 !important;
+        opacity: 1 !important;
+    }
+
+/*Detail*/
+#kavel-detail-wrapper {
+    width: 100%;
+    right: -100%;
+    z-index: 12;
+}
+.KavelOpmerking{
+    color: grey;
+    font-size: 10px;
+}
+
+    #kavel-detail-wrapper.slide {
+        border-left: 0;
+    }
+
+@media (min-width: 768px) {
+    #kavel-detail-wrapper.slide {
+        left: 220px;
+        padding-right: 240px;
+    }
+}

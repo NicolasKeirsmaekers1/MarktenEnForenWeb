@@ -1,0 +1,10 @@
+﻿<ng2-slim-loading-bar [height]="'5px'"></ng2-slim-loading-bar>
+<mafo-nav></mafo-nav>
+<div class="view-container">
+    <section id="content" class="animate-fade-up">
+        <div class="body-content">
+            <router-outlet *ngIf="!loggedOut"></router-outlet>
+            <logged-out *ngIf="loggedOut"></logged-out>
+        </div>
+    </section>
+</div>

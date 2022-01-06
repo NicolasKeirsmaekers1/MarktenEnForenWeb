@@ -1,0 +1,154 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <mafo-panel selector="title" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <h3 class="row">
+                    <span class="col-xs-12" id="title-rapportage">
+                        <span class="fa fa-file-text-o"></span>&nbsp;
+                        Rapportage - CSV Export
+                    </span>
+                </h3>
+            </mafo-panel-heading>
+            <mafo-panel-body (click)="download($event)">
+                <div class="row">
+                    <div class="col-md-3">
+                        <a data-type="MARKTOVERZICHT" id="markten-overzicht-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Markten - overzicht
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a data-type="AANVRAAGOVERZICHT" id="aanvragen-overzicht-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Aanvragen - overzicht
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a data-type="AANVRAAGWACHTLIJST" id="aanvragen-overzicht-wachtlijsten-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Aanvragen - overzicht wachtlijsten (registratie)
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a data-type="AANVRAAGWACHTLIJSTPERMARKT" id="aanvragen-wachtlijst-per-markt-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Aanvragen - wachtlijst per markt (registratie)
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <a data-type="AANVRAAGRESERVATIE" id="aanvragen-reservaties-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Aanvragen - reservaties
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a data-type="ABONNEMENTOVERZICHT" id="abonnementen-overzicht-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Abonnementen - overzicht
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a data-type="ABONNEMENTOPGESCHORT"id="abonnementen-opgeschort-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Abonnementen - opgeschort
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a data-type="ABONNEMENTGESCHORST" id="abonnenementen-geschorst-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Abonnementen - geschorst
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <a data-type="ABONNEMENTOVERDRACHT" id="abonnementen-overdracht-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Abonnementen - overdracht
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a data-type="ABONNEMENTINTREKKING" id="abonnementen-intrekking-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Abonnementen - intrekking
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a data-type="ABONNEMENTOPZEGGING" id="abonnementen-opzegging-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Abonnementen - opzegging
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a data-type="KLANTOVERZICHT" id="klanten-overzicht-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Klanten - overzicht
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <a data-type="HISTORIEK" id="historiek-button">
+                            <div class="well">
+                                <span class="btn btn-success btn-xs btn-edit">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                Historiek
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

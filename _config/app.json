@@ -1,0 +1,8 @@
+{
+  "AppSettings": {
+    "AppName": "MarktenEnForenWeb", //TODO check this name
+    "ApplicationId": "ea692675-b0bc-4c5d-9d90-968aab7ac681",
+    "ApiUrl": "http://localhost:5000/v1/", //TODO Replace by the gateway url to the backend for this application
+    "ApiKey": "" //TODO
+  }
+}

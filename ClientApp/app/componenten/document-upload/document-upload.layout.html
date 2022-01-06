@@ -1,0 +1,54 @@
+﻿<mafo-panel [collapsable]="false" [open]="true">
+    <mafo-panel-heading>
+        <code-display [value]="documentType" type="DocumentType"></code-display>&nbsp;
+    </mafo-panel-heading>
+    <mafo-panel-actions>
+        <label [attr.for]="documentType" class="btn btn-default" *ngIf="!componentsDisabled">
+            <input style="display: none;" type="file" (change)="fileChange($event)" placeholder="Selecteer en laad op" [name]="documentType" [id]="documentType" />
+            <i class="text-info glyphicon glyphicon-cloud-upload"></i>
+        </label>
+    </mafo-panel-actions>
+    <mafo-panel-body>
+        <div class="form-inline" *ngIf="document">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="input-group">
+                        <span>
+                            <button class="btn btn-xs btn-danger" title="Verwijderen" *ngIf="document.naam && !componentsDisabled">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                            </button>
+                        </span>
+                        <p class="form-control-static">
+                            <a href="#" (click)="downloadFile($event)" *ngIf="document.naam">
+                                {{document.naam + document.fileExtension}}
+                            </a>
+                            <span *ngIf="!document.naam">
+                                Geen bestand opgeladen
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-5" *ngIf="document.geldigVan || document.geldigTot">
+                    <div class="input-group input-daterange">
+                        <input type="text" class="form-control"
+                               data-provide="datepicker"
+                               data-date-language="nl-BE"
+                               data-date-format="dd/mm/yyyy"
+                               [ngModel]="document.geldigVan | date:'dd/MM/yyyy'"
+                               (ngModelChange)="document.geldigVan=$event" />
+                        <div class="input-group-addon">tot</div>
+                        <input type="text" class="form-control"
+                               data-provide="datepicker"
+                               data-date-language="nl-BE"
+                               data-date-format="dd/mm/yyyy"
+                               [ngModel]="document.geldigTot | date:'dd/MM/yyyy'"
+                               (ngModelChange)="document.geldigTot=$event" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mafo-panel-body>
+</mafo-panel>
+<span class="help-block" *ngIf="required">
+    Gelieve minstens één <code-display [value]="documentType" type="DocumentType"></code-display> toe te voegen.
+</span>

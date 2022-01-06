@@ -1,0 +1,23 @@
+﻿<div *ngIf="abonnement">
+    <div class="row">
+        <div class="col-xs-12">
+            <mafo-panel selector="title" [collapsable]="false" [open]="true">
+                <mafo-panel-heading>
+                    <h3>
+                        <span class="fa fa-list-alt"></span>&nbsp;
+                        <span id="title-abonnment-klant">
+                            {{abonnement.klant.contactpersoon.voornaam}} {{abonnement.klant.contactpersoon.naam}} > Abonnement {{abonnement.markt.afkorting}} {{abonnement.abonnementStatusBeginDatum | date: 'dd/MM/yyyy'}}
+                        </span>
+                    </h3>
+                </mafo-panel-heading>
+            </mafo-panel>
+        </div>
+    </div>
+    <mafo-klant id="abonnement-section-klant" [data]="abonnement"></mafo-klant>
+    <mafo-standplaats id="abonnement-section-standplaats" [data]="abonnement"></mafo-standplaats>
+    <mafo-dieptekavels id="abonnement-section-dieptekavels" [data]="abonnement"></mafo-dieptekavels>
+    <mafo-dieptekavels-historiek id="abonnement-section-dieptekavels-historiek" [data]="abonnement"></mafo-dieptekavels-historiek>
+    <mafo-status id="abonnement-section-status" [data]="abonnement"></mafo-status>
+    <mafo-elektriciteit id="abonnement-section-elektriciteit" [data]="abonnement" (elekAboGewijzigdCode)="elekAboGewijzigd($event)"></mafo-elektriciteit>
+    <mafo-elektriciteit-historiek id="abonnement-section-elektriciteit-historiek" [data]="abonnement" [elekAboGewijzigdCode]="elekAboGewijzigdCode"></mafo-elektriciteit-historiek>
+</div>

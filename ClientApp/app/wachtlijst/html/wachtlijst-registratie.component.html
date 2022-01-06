@@ -1,0 +1,57 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="title" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <h3 id="title-registraties">Registraties</h3>
+            </mafo-panel-heading>
+            <mafo-panel-body>
+                <div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <form-group>
+                                <search [(ngModel)]="filter.query" (search)="filterRegistraties($event)"></search>
+                            </form-group>
+                        </div>
+                        <div class="col-md-4">
+                            <form-group>
+                                <code-select type="District" [(ngModel)]="filter.district" (ngModelChange)="districtChanged($event)"></code-select>
+                            </form-group>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="pull-right">
+                                <form-group>
+                                    <dp-slider label="Toon enkel toe te wijzen" [(ngModel)]="filter.toeTeWijzen" (ngModelChange)="filterToeTeWijzen($event)"></dp-slider>
+                                </form-group>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <dp-datagrid id ="registraties-table" [data]="data" [options]="gridOptions" (fetchData)="fetchData($event)" (rowClicked)="rowClicked($event)">
+                                <ng-template #rowTemplate let-item="item" let-index="index">
+                                    <td>
+                                        <code-display type="district" [value]="item.district.code"></code-display>
+                                    </td>
+                                    <td>
+                                        <code-display type="dagvandeweek" [value]="item.dagVanDeWeek.code"></code-display>
+                                    </td>
+                                    <td>
+                                        {{item.locatie.naam}}
+                                    </td>
+                                    <td>
+                                        {{item.naam}}
+                                    </td>
+                                </ng-template>
+                                <ng-template #rowActions let-item="item" let-index="index">
+                                    <span title="Nog te bedelen kavels" class="badge bg-red">{{item.toewijsbareKavels}}</span>
+                                    <span title="Totaal aantal aangevraagde kavels" class="badge">{{item.openstaandeGeregistreerdeKavels}}</span>
+                                </ng-template>
+                            </dp-datagrid>
+                        </div>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

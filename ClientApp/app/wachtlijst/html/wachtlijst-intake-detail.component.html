@@ -1,0 +1,210 @@
+﻿<div *ngIf="intake && intakeForm">
+    <form [formGroup]="intakeForm" ngNoForm autocomplete="off">
+        <div class="row">
+            <div class="col-xs-12">
+                <alert *ngIf="intake.id > 0 && !intakeForm.get('isBetaald').value" text="Inschrijvingsgeld aanvraag" strongtext="nog niet betaald"></alert>
+                <alert *ngIf="intake.id > 0 && !intakeForm.get('isDocumentenOk').value" text="Documenten aanvraag" strongtext="nog niet gecontroleerd"></alert>
+
+                <mafo-panel selector="title" [collapsable]="false" [open]="true" [edit]="!deleted">
+                    <mafo-panel-heading>
+                        <h3 id="title-nieuwe-intake">{{title}}
+                            <span class="badge pull-right" style="margin: 2px; background-color: red" *ngIf="deleted">DELETED</span>
+                        </h3>
+
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form-group label="Soort">
+                                    <code-select type="Aanvraagsoort" formControlName="soortCode" (ngModelChange)="changeSoortCode($event)"></code-select>
+                                    <help-block type="required">Soort is vereist</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-6">
+                                <form-group label="Uitstalling">
+                                    <code-select type="Uitstalling" formControlName="uitstallingCode"></code-select>
+                                    <help-block type="required">Uitstalling is vereist</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form-group label="Verkoop">
+                                    <code-select type="Verkoop" formControlName="verkoopCode"></code-select>
+                                    <help-block type="required">Verkoop is vereist</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-6">
+                                <form-group label="Elektriciteit">
+                                    <code-select type="Elektriciteit" formControlName="elektriciteitCode"></code-select>
+                                    <help-block type="required">Elektriciteit is vereist</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form-group label="Opmerkingen">
+                                    <textarea id="opmerking-text-input" class="form-control" placeholder="Uitleg &amp; opmerkingen over deze aanvraag (optioneel)" rows="5" formControlName="opmerking"></textarea>
+                                </form-group>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+        <div class="row" *ngIf="intakeForm.get('soortCode')?.value === aanvraagSoort.NieuwePlaatsCode || intakeForm.get('soortCode')?.value === aanvraagSoort.PlaatsKwijtgeraaktCode || intakeForm.get('soortCode')?.value === aanvraagSoort.UitbreidingCode || intakeForm.get('soortCode')?.value === aanvraagSoort.RuilingCode">
+            <div class="col-xs-12">
+                <product-panel id="intake-product-section"
+                    [formGroup]="intakeForm"
+                    [data]="intake.producten"
+                    [disabled]="intakeForm.get('soortCode')?.value === aanvraagSoort.UitbreidingCode || intakeForm.get('soortCode')?.value === aanvraagSoort.RuilingCode"
+                    [componentsDisabled]="deleted">
+                </product-panel>
+            </div>
+        </div>
+        <div class="row" *ngIf="intakeForm.get('soortCode')?.value">
+            <div class="col-xs-12">
+                <markt-panel id="intake-markt-section"
+                    [type]="intakeForm.get('soortCode')?.value"
+                    [max]="1"
+                    [disabled]="!intakeForm.get('soortCode')?.value || geregistreerd"
+                    [klantId]="klantId"
+                    [aanvraagId]="intake.id"
+                    [formGroup]="intakeForm"
+                    [data]="intake.aanvraagMarkten"
+                    (onChange)="marktenChanged($event)"
+                    [componentsDisabled]="deleted || marktDisabled"
+                    [maxKavels]="maxKavels">
+                </markt-panel>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <dp-document-panel id="intake-documenten-section" [klantId]="klantId" [componentsDisabled]="deleted"></dp-document-panel>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <mafo-panel id="intake-tebetalen-section" selector="tebetalen" [collapsable]="false" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>
+                            TE BETALEN
+                        </h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row">
+                            <div class="col-md-6" *ngIf="intakeForm.get('soortCode')?.value === aanvraagSoort.NieuwePlaatsCode">
+                                Nieuwe Plaats aanvraag
+                            </div>
+                            <div class="col-md-6" *ngIf="intakeForm.get('soortCode')?.value === aanvraagSoort.PlaatsKwijtgeraaktCode">
+                                Nieuwe Plaats kwijtgeraakt aanvraag
+                            </div>
+                            <div class="col-md-6" *ngIf="intakeForm.get('soortCode')?.value === aanvraagSoort.RuilingCode">
+                                Nieuwe Ruiling aanvraag
+                            </div>
+                            <div class="col-md-6"*ngIf="intakeForm.get('soortCode')?.value === aanvraagSoort.UitbreidingCode">
+                                Nieuwe Uitbreiding aanvraag
+                            </div>
+                            <div class="col-md-6 pull-right" *ngIf="intakeForm.get('soortCode')?.value === aanvraagSoort.NieuwePlaatsCode || intakeForm.get('soortCode')?.value === aanvraagSoort.PlaatsKwijtgeraaktCode">
+                                €5 / kavel
+                            </div>
+                            <div class="col-md-6 pull-right" *ngIf="intakeForm.get('soortCode')?.value === aanvraagSoort.RuilingCode || intakeForm.get('soortCode')?.value === aanvraagSoort.UitbreidingCode">
+                                €5 / markt
+                            </div>
+                        </div>
+                        <hr *ngIf="intakeForm.get('soortCode')?.value"/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                Aantal kavels
+                            </div>
+                            <div class="col-md-6 pull-right">
+                                {{aantalKavels}}
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6">
+                                Totaal te betalen
+                            </div>
+                            <div class="col-md-6 pull-right">
+                                €{{teBetalen}}
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Betaling ontvangen</strong>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="pull-right">
+                                    <dp-slider id="betaling-ontvangen-checkbox" formControlName="isBetaald" (ngModelChange)="isBetaaldChanged($event)"></dp-slider>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="intakeForm.get('isBetaald').value">
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <strong>Betalingsdatum</strong>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="pull-right">
+                                        <datepicker id="betalingsdatum-datepicker" formControlName="officieleInschrijvingsDatum"></datepicker>                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Documenten nagekeken</strong>
+                            </div>
+                            <div class="col-md-6 pull-right">
+                                <div class="pull-right">
+                                    <dp-slider id="documenten-nagekeken-checkbox" formControlName="isDocumentenOk"></dp-slider>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" *ngIf="intakeForm.get('soortCode')?.value === aanvraagSoort.NieuwePlaatsCode || intakeForm.get('soortCode')?.value === aanvraagSoort.PlaatsKwijtgeraaktCode"><hr></div>
+                        </div>
+                        <div class="row" *ngIf="intakeForm.get('soortCode')?.value === aanvraagSoort.NieuwePlaatsCode || intakeForm.get('soortCode')?.value === aanvraagSoort.PlaatsKwijtgeraaktCode">
+                            <div class="col-md-6">
+                                <strong>Uitgestelde toewijzing</strong>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="pull-right">
+                                    <dp-slider formControlName="isUitgesteld"></dp-slider>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="intakeForm.get('isUitgesteld').value && (intakeForm.get('soortCode')?.value === aanvraagSoort.NieuwePlaatsCode || intakeForm.get('soortCode')?.value === aanvraagSoort.PlaatsKwijtgeraaktCode)">
+                            <div class="col-md-12"><hr></div>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <strong>Uitgesteld tot</strong>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="pull-right">
+                                        <datepicker formControlName="uitgesteldDatum"></datepicker>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="pull-right">
+                    <button *ngIf="(deleteButton | async) && !deleted" type="submit" class="btn btn-danger" (click)="showRegistratieDeleteModal()">Registratie verwijderen</button>
+                    <button *ngIf="(bewaarButton | async) && !deleted" type="submit" class="btn btn-primary" (click)="onSubmit()">{{bewaarButtonText}}</button>
+                    <button *ngIf="(statusChangeButton | async) && !deleted" type="submit" class="btn btn-primary" (click)="statusChange()">{{statusChangeButtonText}}</button>
+                    <button id="direct-registreren-button" *ngIf="(directBewarenButton | async) && !deleted" type="submit" class="btn btn-primary" (click)="showDirectModal()">{{directBewarenButtonText}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

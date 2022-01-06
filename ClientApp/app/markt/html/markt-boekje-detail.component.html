@@ -1,0 +1,631 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="kavels" [collapsable]="false" [open]="dagpasDisplayed">
+            <mafo-panel-heading>
+                <h5 class="header-left">
+                    <markt-display [value]="marktId"></markt-display>
+                </h5>
+            </mafo-panel-heading>
+            <!--<mafo-panel-actions>
+                <button class="btn btn-primary" (click)="createDagpas()">Dagpas registreren</button>
+            </mafo-panel-actions>-->
+            <mafo-panel-body>
+                <klant-detail [klant]="klant" (onCreated)="klantCreated($event)" [limitedView]="true"></klant-detail>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="kavels" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <h5>Kavels</h5>
+            </mafo-panel-heading>
+            <mafo-panel-actions>
+                <button class="btn btn-primary" (click)="downloadKavelsCsv()"><i class="glyphicon glyphicon-save"></i></button>
+                <button class="btn btn-primary" (click)="showLegend()"><i class="fa fa-info-circle"></i></button>
+                <button class="btn btn-primary" (click)="showLegend()"><i class="fa fa-filter"></i></button>
+            </mafo-panel-actions>
+            <mafo-panel-body>
+                <div class="row">
+                        <div class="col-xs-12">
+                    <!-- <div class="col-xs-12" (touchstart)="mousedown($event)" (mousedown)="mousedown($event)" (touchend)="mouseup($event)" (mouseup)="mouseup($event)"> -->
+                        <ng-container *ngFor="let kavel of kavels">
+                            <a class="kavel-detail" *ngIf="!kavel.hidden" [attr.data-id]="kavel.id" (click)="showKavelDetail(kavel.id)">
+                                <span class="badge large" [ngClass]="setKavelColor(kavel)">{{kavel.oudeNaam}}</span>
+                            </a>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="row" [hidden]="selectedKavels.length==0">
+                    <div class="col-xs-12" (touchstart)="mousedown($event)" (mousedown)="mousedown($event)" (touchend)="mouseup($event)" (mouseup)="mouseup($event)">
+                        <label class="control-label">Geselecteerde kavels</label>
+                        <p>
+                            <ng-container *ngFor="let kavel of selectedKavels">
+                                <a *ngIf="!kavel.hidden" class="kavel-detail" [attr.data-id]="kavel.id">
+                                    <span class="badge large" [ngClass]="setKavelColor(kavel)">{{kavel.oudeNaam}}</span>
+                                </a>
+                            </ng-container>
+                        </p>
+                    </div>
+                </div>
+                <div class="row" [hidden]="selectedKavels.length==0">
+                    <div class="col-xs-12 col-md-4">
+                        <form [formGroup]="elektriciteitForm" ngNoForm autocomplete="off" (ngSubmit)="onKlantSubmit()">
+                            <form-group label="Elektriciteit">
+                                <code-select type="ElektriciteitDagpas" formControlName="elektriciteitCode"></code-select>
+                                <help-block type="required">Elektriciteit is verplicht</help-block>
+                            </form-group>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" [hidden]="selectedKavels.length==0">
+                    <div class="col-xs-12">
+                        <div class="pull-right">
+
+                            <button class="btn btn-primary" type="submit" (click)="confirmKavels()">Volgende</button>
+                            <!--  <button class="btn btn-primary" type="submit" (click)="saveDagpas()">Dagpas bewaren</button>-->
+                        </div>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>
+<!--Tooltip-->
+<div id="marktboekje-kavel-tooltip" class="body-content" [ngClass]="{'slide' : tooltipDisplayed }" *ngIf="kavel && kavel.klant">
+    <div class="row">
+        <div class="col-xs-1">
+            <button class="btn btn-primary" (click)="hideTooltip()">
+                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="col-xs-11">
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="control-label">Firmanaam</label>
+                        <p class="form-control-static">{{kavel.klant.firmanaam}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">GSM</label>
+                        <p class="form-control-static">{{kavel.klant.telefoon | nullSafe}}</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Elektriciteit</label>
+                        <p class="form-control-static">{{kavel.abonnement.elektriciteit.omschrijving | nullSafe}}</p>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="control-label">Hoofd contactpersoon</label>
+                        <p class="form-control-static">{{kavel.klant.contactPersoon}}</p>
+                    </div>
+                    <div class="form-group" *ngIf="kavel && kavel.abonnementStatus">
+                        <label class="control-label">Status</label>
+                        <p class="form-control-static">
+                            <code-display [type]="codeType.Abonnementstatus" [value]="kavel.abonnementStatus.code"></code-display>
+                        </p>
+                    </div>
+                    <div class="form-group" *ngIf="kavel.abonnementOvernemer">
+                        <label class="control-label">Overnemener Firmanaam</label>
+                        <p class="form-control-static">
+                            {{kavel.abonnementOvernemer.firmanaam}}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="control-label">Ondernemingsnummer</label>
+                        <p class="form-control-static">{{kavel.klant.ondernemingsnr}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Kavels</label><br /><p>
+                            <ng-container *ngFor="let kavel of kavel.abonnement.kavels">
+                                <span *ngIf="!kavel.hidden">{{kavel.oudeNaam}}</span>
+                            </ng-container>
+                        </p>
+                    </div>
+                    <div class="form-group" *ngIf="kavel.abonnementOvernemer">
+                        <label class="control-label">Overnemer Ondernemingsnummer</label>
+                        <p class="form-control-static">{{kavel.abonnementOvernemer.ondernemingsNr}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Detail-->
+<div id="marktboekje-kavel-detail" class="body-content right-slider" [ngClass]="{'slide' : detailDisplayed }">
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn btn-primary" (click)="hideDetail()">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <br />
+            <br />
+        </div>
+    </div>
+    <div *ngIf="kavel">
+        <div class="row">
+            <div class="col-xs-12">
+                <mafo-panel selector="kavel" [collapsable]="false" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>
+                            Kavel details
+                        </h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Kavelnummer</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.oudeNaam}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Kavelstatus</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{toDisplayFormat(kavel.kavelStatus)}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Dieptekavel mogelijk</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.mogelijkheidDieptekavel ? "Ja" : "Nee"}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+        <div class="row" *ngIf="kavel && kavel.abonnement">
+            <div class="col-xs-12">
+                <mafo-panel selector="abonnement" [collapsable]="true" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>
+                            Abonnement
+                        </h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Firmanaam</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.firmaNaam}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Ondernemingsnummer</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.ondernemingsNummer}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">GSM</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.telefoon | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Hoofd contactpersoon</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.contactPersoon}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Begindatum</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.beginDatum | date: 'dd/MM/yyyy' | nullSafe }}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Einddatum</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{ kavel.abonnement.eindDatum | date: 'dd/MM/yyyy' | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Status</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.status | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Soort uitstalling</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.uitstalling| nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Verkoop</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.verkoop | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Elektriciteit</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnement.elektriciteit | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Kavels</label><br />
+                                    <ng-container *ngFor="let kavel of kavel.abonnement.abonnementKavels">
+                                        <a *ngIf="!kavel.hidden" class="kavel-detail" [attr.data-id]="kavel.id">
+                                            <span class="badge large" [ngClass]="setKavelColor(kavel)">{{kavel.oudeNaam}}</span>
+                                        </a>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div><div class="row" *ngIf="kavel && kavel.abonnementOvernemer">
+            <div class="col-xs-12">
+                <mafo-panel selector="abonnement" [collapsable]="true" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>
+                            Abonnement Overnemer
+                        </h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Firmanaam</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnementOvernemer.firmanaam}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Ondernemingsnummer</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnementOvernemer.ondernemingsNr}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Begindatum</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnementOvernemer.begindatum | date: 'dd/MM/yyyy' | nullSafe }}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Einddatum</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{ kavel.abonnementOvernemer.einddatum | date: 'dd/MM/yyyy' | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Status</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnementOvernemer.status.omschrijving | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Soort uitstalling</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnementOvernemer.uitstalling.omschrijving | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Verkoop</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnementOvernemer.verkoop.omschrijving | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Elektriciteit</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{kavel.abonnementOvernemer.elektriciteit.omschrijving | nullSafe}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Kavels</label><br />
+                                    <ng-container *ngFor="let kavel of kavel.abonnementOvernemer.kavels">
+                                        <a *ngIf="!kavel.hidden" class="kavel-detail" [attr.data-id]="kavel.id">
+                                            <span class="badge large" [ngClass]="setKavelColor(kavel)">{{kavel.oudeNaam}}</span>
+                                        </a>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+        <div class="row" *ngIf="kavel && kavel.abonnement">
+            <div class="col-xs-12">
+                <mafo-panel selector="producten" [collapsable]="true" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>
+                            Producten
+                        </h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="list-group">
+                                    <div class="list-group-item" *ngFor="let product of kavel.abonnement.producten">
+                                        <h4 class="list-group-item-heading">{{product.omschrijving}}</h4>
+                                        <p class="list-group-item-text">{{product.detail}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <mafo-panel selector="opmerkingen" [collapsable]="true" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>
+                            Opmerkingen
+                        </h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="list-group">
+                                    <div class="list-group-item" *ngFor="let kavelOpmerking of kavel.opmerkingen">
+                                        <span id="KavelOpmerking">{{ (kavelOpmerking.createdOn | date: 'dd/MM/yyyy') || ( currentDate | date: 'dd/MM/yyyy' ) }}</span>
+                                        <p class="list-group-item-text">{{kavelOpmerking.opmerking}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="5" [(ngModel)]="opmerking" name="opmerkingen"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="pull-right">
+                                    <button class="btn btn-primary" type="button" (click)="updateKavelOpmerking($event)">Opmerking toevoegen</button>
+                                </div>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Dagpas Kavels bevestigen-->
+<div id="marktboekje-dagpas-overview" class="body-content right-slider" [ngClass]="{'slide' : dagpasOverviewDisplayed }">
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn btn-primary" (click)="hideDagpas()">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <br />
+            <br />
+        </div>
+    </div>
+    <div class="row" [hidden]="!kavelConfirmDisplayed">
+        <div class="col-xs-12">
+            <mafo-panel selector="dagpasConfirm" [collapsable]="true" [open]="true">
+                <mafo-panel-heading>
+                    <h5>
+                        Bezette kavels
+                    </h5>
+                </mafo-panel-heading>
+                <mafo-panel-body>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p>Volgende kavels staan momenteel op een abonnement. Wilt u hier mee verder gaan?</p>
+                            <ng-container *ngFor="let kavel of subscribedKavels">
+                                <a *ngIf="!kavel.hidden" class="kavel-detail" [attr.data-id]="kavel.id">
+                                    <span class="badge large" [ngClass]="setKavelColor(kavel)">{{kavel.oudeNaam}}</span>
+                                </a>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="row" [hidden]="selectedKavels.length==0">
+                        <div class="col-xs-12">
+                            <div class="pull-right">
+                                <button class="btn btn-primary" type="button" (click)="contiueSave()">Bewaren</button>
+                                <button class="btn btn-warning" type="button" (click)="hideDagpas()">Terug</button>
+                            </div>
+                        </div>
+                    </div>
+                </mafo-panel-body>
+            </mafo-panel>
+        </div>
+    </div>
+    <div class="row" [hidden]="kavelConfirmDisplayed">
+        <div class="col-xs-12">
+            <mafo-panel selector="abonnement" [collapsable]="true" [open]="true">
+                <mafo-panel-heading>
+                    <h5>
+                        Overzicht
+                    </h5>
+                </mafo-panel-heading>
+                <mafo-panel-body>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Geselecteerde kavels</label>
+                                <ng-container *ngFor="let kavel of selectedKavels">
+                                    <a *ngIf="!kavel.hidden" class="kavel-detail" [attr.data-id]="kavel.id">
+                                        <span class="badge large" [ngClass]="setKavelColor(kavel)">{{kavel.oudeNaam}}</span>
+                                    </a>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Firmanaam</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{klant.firmanaam}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Juridische entiteit</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">
+                                        <code-display [type]="codeType.Juridischeentiteit" [value]="klant.juridischeEntiteit"></code-display>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Ondernemingsnummer</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{klant.ondernemingsnr}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">GSM</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{klant.telefoon | nullSafe}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p>Test3</p>
+                                <label class="col-sm-4 control-label">Hoofd contactpersoon</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">
+                                        {{klant.contactPersonen[0].voornaam | nullSafe}} {{klant.contactPersonen[0].naam | nullSafe}}
+                                        <br />Tel: {{klant.contactPersonen[0].gsm | nullSafe}}  GSM: {{klant.contactPersonen[0].telefoon | nullSafe}}
+                                        <br />Email: {{klant.contactPersonen[0].email | nullSafe}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Omschrijving</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">
+                                        Dagpas <markt-display [value]="marktId"></markt-display> voor kavels
+                                        <ng-container *ngFor="let kavel of selectedKavels">
+                                            <span *ngIf="!kavel.hidden" class="kavel-detail" [attr.data-id]="kavel.id">
+                                                {{kavel.oudeNaam}}
+                                            </span>
+                                        </ng-container>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Totaal aantal kavels</label>
+                                <div class="col-sm-8">
+                                    <ng-container *ngFor="let kavel of subscribedKavels">
+                                        <a *ngIf="!kavel.hidden" class="kavel-detail" [attr.data-id]="kavel.id">
+                                            <span class="badge large" [ngClass]="setKavelColor(kavel)">{{kavel.oudeNaam}}</span>
+                                        </a>
+                                    </ng-container>
+                                    <p class="form-control-static">{{selectedKavels.length}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Eenheidsprijs kavel dagpas zonder BTWs</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{eenheidsprijsKavel}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">BTW-voet kavels</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">21%</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Totaalprijs kavels</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{totaalprijsKavel}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Elektriciteit</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">
+                                        <code-display [type]="codeType.ElektriciteitDagpas" [value]="klant.elektriciteit"></code-display>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Eenheidsprijs elektriciteit dagpas zonder BTW</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{eenheidsprijsElektriciteit}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">BTW-voet elektriciteit </label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">6%</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Totaalprijs elektriciteit dagpas met BTW</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{totaalprijsElektriciteit}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Totaal te betalen</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">€{{this.totaalElektricteitNumber + this.totaalKavelNumber}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <p><input type="checkbox" name="isPayed" [(ngModel)]="isPayed"> Deze betaling werd ontvangen</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="pull-right">
+                                <button class="btn btn-primary" type="submit" (click)="saveDagpas()">Dagpas bewaren</button>
+                            </div>
+                        </div>
+                    </div>
+                </mafo-panel-body>
+            </mafo-panel>
+        </div>
+    </div>
+</div>
+
+<!--Filter-->
+<div id="marktboekje-kavel-filter" class="body-content right-slider" [ngClass]="{'slide' : legendDisplayed }">
+    <button class="btn btn-primary" (click)="showLegend()">
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    </button>
+    <h3>Filter</h3>
+    <div class="checkbox checkbox-list">
+        <ul style="list-style: none;" (change)="setFilter($event)">
+            <li><label><input id="vrij" type="checkbox" [(ngModel)]="filter.vrij">Vrij</label></li>
+            <li><label><input id="bezet" type="checkbox" [(ngModel)]="filter.bezet">Bezet</label></li>
+            <li><label><input id="inoverdracht" type="checkbox" [(ngModel)]="filter.inoverdracht">In overdracht</label></li>
+            <li><label><input id="gereserveerd" type="checkbox" [(ngModel)]="filter.gereserveerd">Gereserveerd</label></li>
+            <li><label><input id="onbeschikbaar" type="checkbox" [(ngModel)]="filter.onbeschikbaar">Onbeschikbaar</label></li>
+        </ul>
+    </div>
+    <hr />
+    <h3>Legend</h3>
+    <div class="checkbox checkbox-list">
+        <ul>
+            <li class="badge bg-green">Vrij</li>
+            <li class="badge bg-red">Bezet</li>
+            <li class="badge bg-red">In overdracht</li>
+            <li class="badge bg-orange">Gereserveerd</li>
+            <li class="badge bg-grey">Onbeschikbaar</li>
+            <li class="badge bg-green-striped">Bezet-Te Bedelen</li>
+            <li class="badge bg-orange-striped">Bezet-Gereserveerd</li>
+            <li class="badge bg-white badge-border">Dieptekavel mogelijk</li>
+        </ul>
+    </div>
+</div>

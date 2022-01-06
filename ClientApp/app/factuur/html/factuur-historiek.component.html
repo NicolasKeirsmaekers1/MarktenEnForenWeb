@@ -1,0 +1,49 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="factuurHistoriek" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <h3 id="title-historiek">
+                    <span class="fa fa-dot-circle-o"></span>&nbsp;
+                    Factuur historiek
+                </h3>
+            </mafo-panel-heading>
+            <mafo-panel-body>
+                <div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <search (search)="searchFacturen($event)"></search>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color: #428bca; border-color: #357ebd">
+                                    <span class="btn-primary" style="background-color: #428bca">Semester</span>
+                                </span>
+                                <code-select placeholder="- Semester -" type="FactuurSemester" [(ngModel)]="selectedSemester" (ngModelChange)="fetchData(page)"></code-select>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <dp-datagrid [data]="historiekFactuur" [options]="gridOptions" (fetchData)="fetchData($event)" (rowClicked)="rowClicked($event)">
+                                    <ng-template #rowTemplate let-item="item" let-index="index">
+                                        <td>{{item.createdOn | date: 'dd/MM/yyyy'}}</td>
+                                        <td>{{item.klant.firmanaam | nullSafe}}</td>
+                                        <td>{{item.klant.ondernemingsnr | nullSafe}}</td>
+                                        <td>{{item.district.omschrijving | nullSafe}}</td>
+                                        <td>{{item.factuurNummer | nullSafe}}</td>
+                                        <td>€ {{item.bedrag | nullSafe}}</td>
+                                    </ng-template>
+                                    <ng-template #rowActions let-item="item" let-index="index">
+                                        <button title="Detail" class="btn btn-default btn-xs btn-primary" [attr.data-id]="item.id" (click)="showDetailModal(item.id)">
+                                            <i class="fa fa-info"></i>
+                                        </button>
+                                    </ng-template>
+                                </dp-datagrid>
+                        </div>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

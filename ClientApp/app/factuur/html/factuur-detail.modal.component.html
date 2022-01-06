@@ -1,0 +1,59 @@
+﻿﻿<div *ngIf="factuur">
+    <div class="modal-header">
+        <button aria-label="Close" class="close" type="button" (click)="dialog.close(false)">
+            <span aria-hidden="true">×</span>
+        </button>
+        <h3 class="modal-title">Detail factuur {{factuur.factuurNummer | nullSafe}}</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <label>Doorgestuurd naar SAP</label>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="pull-left">
+                    <label>{{factuur.isDoorgestuurdNaarSAP === true ? 'Ja' : 'Nee' | nullSafe}}</label>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label>Klant naam</label>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="pull-left">
+                    <label>{{factuur.klant.firmanaam | nullSafe}}</label>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                    <label>Klant nummer</label>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="pull-left">
+                    <label>{{factuur.klant.ondernemingsnr | nullSafe}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <label>Factuur lijnen</label>
+            </div>
+            <div class="col-xs-12 col-md-12">
+                <dp-datagrid [data]="factuurLijnenData" [options]="gridOptions">
+                    <!-- Datagrid met template die een modal opent, waarin een nieuwe datagrid 
+                    met een template zit veroorzaakt crash -->
+                    <ng-template #rowTemplate let-item="item" let-index="index">
+                        <td>{{item.omschrijving | nullSafe}}</td>
+                        <td>{{item.sapmateriaalCode | nullSafe}}</td>
+                        <td>€ {{item.eenheidsPrijs | nullSafe}}</td>
+                        <td>{{item.aantal | nullSafe}}</td>
+                        <td>€ {{item.totaal | nullSafe}}</td>
+                    </ng-template>
+                </dp-datagrid>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+       <button type="button" class="btn btn-default" (click)="dialog.close(false)">Sluiten</button>
+    </div>
+</div>

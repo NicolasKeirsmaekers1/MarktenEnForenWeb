@@ -1,0 +1,142 @@
+﻿<div *ngIf="markt">
+    <form [formGroup]="bewerkMarktForm" (ngSubmit)="updateMarkt()" ngNoForm autocomplete="off">
+        <div class="row">
+            <div class="col-xs-12">
+                <mafo-panel selector="title" [collapsable]="false">
+                    <mafo-panel-heading>
+                        <h3>
+                            <span class="fa fa-dot-circle-o"></span>&nbsp;
+                            {{pageTitle}}
+                        </h3>
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form-group label="Naam markt">
+                                    <input class="form-control" type="text" formControlName="naam">
+                                    <help-block type="required">Naam markt is verplicht</help-block>
+                                    <help-block type="max">Naam markt kan max 50 characters bevatten</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-4">
+                                <form-group label="Afkorting">
+                                    <input class="form-control" type="text" formControlName="afkorting">
+                                    <help-block type="required">Afkorting is verplicht</help-block>
+                                    <help-block type="max">Afkorting kan max 11 characters bevatten</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-2">
+                                <form-group label="Aantal kavels">
+                                    <quantity-selector formControlName="aantalKavels"></quantity-selector>
+                                    <help-block type="rangevalidator">Aantal kavels moet tussen 1 en 9999 liggen</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form-group label="District">
+                                    <code-id-select type="District" formControlName="districtId" (ngModelChange)="districtChanged($event)"></code-id-select>
+                                    <help-block type="required">District is verplicht</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-6">
+                                <form-group label="Locatie">
+                                    <location-districtid-select formControlName="locatieId" [district]="bewerkMarktForm.get('districtId').value"></location-districtid-select>
+                                    <help-block type="required">Locatie is verplicht</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <mafo-panel [collapsable]="false" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>
+                            Agenda
+                        </h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-body>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form-group label="Startdatum">
+                                    <datepicker formControlName="startdatum"></datepicker>
+                                    <help-block type="required">Startdatum is verplicht</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-6">
+                                <form-group label="Einddatum">
+                                    <datepicker formControlName="einddatum"></datepicker>
+                                </form-group>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <form-group label="Herhaling">
+                                    <code-id-select type="Interval" formControlName="intervalId"></code-id-select>
+                                    <help-block type="required">Herhaling is verplicht</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-4">
+                                <form-group label="Dag van de week">
+                                    <code-id-select type="Dagvandeweek" formControlName="dagVanDeWeekId"></code-id-select>
+                                    <help-block type="required">Dag van de week is verplicht</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-2">
+                                <form-group label="Van">
+                                    <timepicker formControlName="beginuur"></timepicker>
+                                    <help-block type="required">Van is verplicht</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-2">
+                                <form-group label="Tot">
+                                    <timepicker formControlName="einduur"></timepicker>
+                                    <help-block type="required">Tot is verplicht</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+        <div class="row" *ngIf="markt.id">
+            <div class="col-md-12">
+                <mafo-panel selector="kavels" [collapsable]="true" [open]="true">
+                    <mafo-panel-heading>
+                        <h5>
+                            Kavels
+                        </h5>
+                    </mafo-panel-heading>
+                    <mafo-panel-actions>
+                        <button type="button" class="btn btn-primary" (click)="showKavelModal($event)"><i class="fa fa-plus"></i>&nbsp;Kavel toevoegen</button>
+                        <button type="button" class="btn btn-primary" (click)="downloadKavelsCsv()"><i class="glyphicon glyphicon-save"></i>&nbsp;Exporteer</button>
+                        <label for="upload-kavels" class="btn btn-primary">
+                            <input style="display: none;" type="file" (change)="uploadKavelsCsv($event)" placeholder="Selecteer en laad op" name="upload-kavels" id="upload-kavels" accept=".csv" />
+                            <i class="fa fa-upload"></i>
+                            <span class="hidden-mobile">Importeer</span>
+                        </label>
+                    </mafo-panel-actions>
+                    <mafo-panel-body>
+                        <div class="row" *ngIf="kavels">
+                            <div class="col-xs-12" (click)="showKavelModal($event)">
+                                <a *ngFor="let kavel of kavels" class="kavel-detail" [attr.data-id]="kavel.id">
+                                    <span class="badge large" [ngClass]="setKavelColor(kavel)" style="margin: 2px;">{{kavel.oudeNaam}}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </mafo-panel-body>
+                </mafo-panel>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="pull-right">
+                    <button *ngIf="update | async" class="btn btn-primary" type="submit">Markt bewaren</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

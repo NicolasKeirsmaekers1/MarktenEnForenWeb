@@ -1,0 +1,47 @@
+﻿.panel-heading {
+    position: relative;
+}
+
+    .panel-heading .panel-actions {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        height: 100%;
+        /*overflow-y: hidden;*/
+        padding: 15px 7.5px;
+        margin: -10px -15px 0 0;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        -webkit-box-align: center;
+        align-items: center;
+    }
+
+    .panel-actions {
+        text-transform:none;
+    }
+
+
+.panel-title > .small:active, .panel-title > .small:focus, .panel-title > .small:hover, .panel-title > .small > a:active, .panel-title > .small > a:focus, .panel-title > .small > a:hover, .panel-title > a:active, .panel-title > a:focus, .panel-title > a:hover, .panel-title > small:active, .panel-title > small:focus, .panel-title > small:hover, .panel-title > small > a:active, .panel-title > small > a:focus, .panel-title > small > a:hover {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.panel-loading {
+    position: relative !important;
+}
+
+    .panel-loading:after {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #000000;
+        background-color: rgba(0, 0, 0, 0.1);
+        background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHdpZHRoPSc2NHB4JyBoZWlnaHQ9JzY0cHgnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiBjbGFzcz0idWlsLXJpbmciPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJub25lIiBjbGFzcz0iYmsiPjwvcmVjdD48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgc3Ryb2tlLWRhc2hhcnJheT0iMTYzLjM2MjgxNzk4NjY2OTI2IDg3Ljk2NDU5NDMwMDUxNDIiIHN0cm9rZT0iI2QyNTM1MyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyMCI+PGFuaW1hdGVUcmFuc2Zvcm0gYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiB0eXBlPSJyb3RhdGUiIHZhbHVlcz0iMCA1MCA1MDsxODAgNTAgNTA7MzYwIDUwIDUwOyIga2V5VGltZXM9IjA7MC41OzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBiZWdpbj0iMHMiPjwvYW5pbWF0ZVRyYW5zZm9ybT48L2NpcmNsZT48L3N2Zz4=);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 50px 50px;
+        content: "";
+    }

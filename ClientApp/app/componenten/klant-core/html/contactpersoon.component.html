@@ -1,0 +1,70 @@
+﻿<div [formGroup]="contactPersoonForm">
+    <mafo-panel [selector]="selector" [collapsable]="true" [open]="true">
+        <mafo-panel-heading>
+            <h6>
+                <i class="fa fa-remove fa-lg text-danger" (click)="remove($event)" *ngIf="!hoofdContact"></i>
+                &nbsp;&nbsp;
+                {{title}}
+            </h6>
+        </mafo-panel-heading>
+        <mafo-panel-actions>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" formControlName="isHoofdcontactPersoon" (change)="hoofdcontactSelected()" />
+                    <b>Hoofdcontact</b>
+                </label>
+            </div>
+        </mafo-panel-actions>
+        <mafo-panel-body>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <form-group label="Voornaam">
+                        <input class="form-control" type="text" formControlName="voornaam" />
+                        <help-block type="required">Voornaam is verplicht</help-block>
+                        <help-block type="maxLength">Maximaal 50 characters</help-block>
+                    </form-group>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <form-group label="Naam">
+                        <input class="form-control" type="text" formControlName="naam" />
+                        <help-block type="required">Naam is verplicht</help-block>
+                        <help-block type="maxLength">Maximaal 50 characters</help-block>
+                    </form-group>
+                </div>
+            </div>
+            <mafo-address [address]="persoon.adres" [group]="contactPersoonForm.controls.adres" [required]="false"></mafo-address>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <form-group label="Telefoon">
+                        <input class="form-control" type="text" formControlName="telefoon" />
+                        <help-block type="pattern">Geen geldig telefoon nummer</help-block>
+                        <help-block type="maxLength">Maximaal 30 characters</help-block>
+                    </form-group>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <form-group label="Gsm">
+                        <input class="form-control" type="text" formControlName="gsm" />
+                        <help-block type="pattern">Geen geldig gsm nummer</help-block>
+                        <help-block type="maxLength">Maximaal 30 characters</help-block>
+                    </form-group>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <form-group label="Fax">
+                        <input class="form-control" type="text" formControlName="fax" />
+                        <help-block type="pattern">Geen geldig fax nummer</help-block>
+                        <help-block type="maxLength">Maximaal 30 characters</help-block>
+                    </form-group>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <form-group label="E-mail">
+                        <input class="form-control" type="text" formControlName="email" />
+                        <help-block type="validEmail">Geen geldig e-mail</help-block>
+                        <help-block type="maxLength">Maximaal 50 characters</help-block>
+                    </form-group>
+                </div>
+            </div>
+        </mafo-panel-body>
+    </mafo-panel>
+</div>

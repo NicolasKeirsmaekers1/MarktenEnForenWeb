@@ -1,0 +1,265 @@
+﻿<form [formGroup]="klantForm" (ngSubmit)="onSubmit(klantForm)" ngNoForm autocomplete="off">
+    <div class="row">
+        <div class="col-xs-12">
+            <mafo-panel selector="title" [collapsable]="false">
+                <mafo-panel-heading>
+                    <h3>
+                        <span class="fa fa-user"></span>&nbsp;
+                        {{title}}
+                        <br />
+                        <span class="badge" style="margin: 2px; background-color: red" *ngIf="klant.isGesanctioneerd">GESANCTIONEERD</span>
+                    </h3>
+
+                </mafo-panel-heading>
+                <mafo-panel-actions>
+                    <label>Commercieel</label>
+                    <dp-slider formControlName="isCommercieel"></dp-slider>
+                </mafo-panel-actions>
+                <mafo-panel-body>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div *ngIf="hasJuridischeEntiteitError" class="alert alert-danger" role="alert">
+                                {{errorMessage}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="selectType" [hidden]="limitedView">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label">Type</label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="isCommercieel" formControlName="isCommercieel" [value]="true" />
+                                        Commercieel
+                                    </label>
+                                    &nbsp;
+                                    <label>
+                                        <input type="radio" name="isCommercieel" formControlName="isCommercieel" [value]="false" />
+                                        Niet-commercieel
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4">
+                            <form-group label="Ondernemingsnummer">
+                                <onderneming-select formControlName="ondernemingsnr" (onResult)="searchOndernemingsnummer($event)"></onderneming-select>
+                                <help-block type="required">Ondernemingsnummer is verplicht</help-block>
+                            </form-group>
+                        </div>
+                        <div class="col-xs-12 col-md-4">
+                            <form-group label="Naam onderneming">
+                                <input class="form-control" [ngClass]="naamChanged?'klant-changed':''" type="text" formControlName="firmanaam" />
+                                <help-block type="required">Naam onderneming is verplicht</help-block>
+                            </form-group>
+                        </div>
+                        <div class="col-xs-12 col-md-4">
+                            <form-group label="Juridische entiteit">
+                                <code-select type="Juridischeentiteit" formControlName="juridischeEntiteit" [ngClass]="juridischChanged?'klant-changed':''"></code-select>
+                                <help-block type="required">Juridische entiteit is verplicht</help-block>
+                            </form-group>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <form-group label="Telefoon">
+                                <input id="telefoon" class="form-control" type="text" formControlName="telefoon" [ngClass]="telChanged?'klant-changed':''" />
+                                <help-block type="required">Telefoon is verplicht</help-block>
+                                <help-block type="pattern">Geen geldig formaat</help-block>
+                            </form-group>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <form-group label="Fax">
+                                <input id="fax" class="form-control" type="text" formControlName="fax" [ngClass]="faxChanged?'klant-changed':''" />
+                                <help-block type="required">Fax is verplicht</help-block>
+                                <help-block type="pattern">Geen geldig formaat</help-block>
+                            </form-group>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <form-group label="GSM">
+                                <input id="gsm" class="form-control" type="text" formControlName="gsm" [ngClass]="gsmChanged?'klant-changed':''" />
+                                <help-block type="required">GSM is verplicht</help-block>
+                                <help-block type="pattern">Geen geldig formaat</help-block>
+                            </form-group>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <form-group label="E-mail">
+                                <input id="email" class="form-control" type="text" formControlName="email" [ngClass]="emailChanged?'klant-changed':''" />
+                                <help-block type="required">E-mail is verplicht</help-block>
+                                <help-block type="validEmail">Geen geldig e-mail</help-block>
+                            </form-group>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <form-group label="KBO Status">
+                                <input id="kboStatus" class="form-control" type="text" formControlName="kboStatus" [ngClass]="kboChanged?'klant-changed':''" readonly />
+                            </form-group>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <div class="pull-right">
+                                <a class="btn btn-info" (click)="updateKlantFromKBO()">
+                                    <i class="fa " [ngClass]="{ 'fa-spin': klantUpdating,'fa-refresh': !klantUpdateAfgerond, 'fa-check':klantUpdateAfgerond }"></i>
+                                    <span class="hidden-sm hidden-xs">&nbsp;&nbsp;Klant updaten</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </mafo-panel-body>
+            </mafo-panel>
+        </div>
+    </div>
+    <div class="row" *ngIf="klant && klant.id" [hidden]="limitedView">
+        <div class="col-xs-12">
+            <mafo-panel selector="lopendeaanvragen" [collapsable]="true" [open]="true">
+                <mafo-panel-heading>
+                    <h5>
+                        Lopende aanvragen
+                    </h5>
+                </mafo-panel-heading>
+                <mafo-panel-body>
+                    <dp-datagrid [data]="openstaandeAanvragenData" [options]="openstaandeAanvragenOptions" (fetchData)="fetchOpenstaandeAanvragen($event)" (rowClicked)="openstaandeAanvragenRowClicked($event)">
+                        <ng-template #rowTemplate let-item="item" let-index="i">
+                            <td>
+                                {{item.datum | date:'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                                <code-display type="Aanvraagstatus" [value]="item.status"></code-display>
+                            </td>
+                            <td>{{item.positie >= 0 ? item.positie : '/'}}</td>
+                            <td>
+                                <code-display type="Aanvraagsoort" [value]="item.soort"></code-display>
+                            </td>
+                            <td>{{item.markt.naam}}</td>
+                            <td>
+                                <code-display type="District" [value]="item.district"></code-display>
+                            </td>
+                            <td>{{item.aantalKavels}}</td>
+                            <td>{{item.opmerkingen}}</td>
+                        </ng-template>
+                    </dp-datagrid>
+                </mafo-panel-body>
+            </mafo-panel>
+        </div>
+    </div>
+    <div class="row" *ngIf="klant && klant.id" [hidden]="limitedView">
+        <div class="col-xs-12">
+            <mafo-panel selector="abonnementen" [collapsable]="true" [open]="true">
+                <mafo-panel-heading>
+                    <h5>
+                        Abonnementen
+                    </h5>
+                </mafo-panel-heading>
+                <mafo-panel-body>
+                    <dp-datagrid [data]="abonnementenData" [options]="abonnementenOptions" (fetchData)="fetchAbonnementen($event)" (rowClicked)="abonnementenRowClicked($event)">
+                        <ng-template #rowTemplate let-item="item" let-index="i">
+                            <td>
+                                {{item.begindatum | date:'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                                {{item.einddatum | date:'dd/MM/yyyy'}}
+                            </td>
+                            <td>{{item.markt.naam}}</td>
+                            <td>
+                                <code-display type="DISTRICT" [value]="item.markt.districtCode"></code-display>
+                            </td>
+                            <td>{{item.aantalKavels}}</td>
+                            <td>
+                                <code-display type="AbonnementStatus" [value]="item.statusCode"></code-display>
+                            </td>
+                            <td>
+                                <code-display type="Uitstalling" [value]="item.uitstallingCode"></code-display>
+                            </td>
+                            <td>
+                                <code-display type="Verkoop" [value]="item.verkoopCode"></code-display>
+                            </td>
+                            <td>
+                                <code-display type="Elektriciteit" [value]="item.elektriciteitCode"></code-display>
+                            </td>
+                        </ng-template>
+                    </dp-datagrid>
+                </mafo-panel-body>
+            </mafo-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <mafo-panel selector="maatschappelijkeZetel" [collapsable]="true" [open]="true">
+                <mafo-panel-heading>
+                    <h5>
+                        MAATSCHAPPELIJKE ZETEL
+                    </h5>
+                </mafo-panel-heading>
+                <mafo-panel-body>
+                    <mafo-address [address]="klant.maatschappelijkeZetel" [group]="klantForm.controls.maatschappelijkeZetel" [required]="true" (change)="copyAddressToFacturation()"></mafo-address>
+                </mafo-panel-body>
+            </mafo-panel>
+        </div>
+    </div>
+    <div class="row" [hidden]="limitedView">
+        <div class="col-xs-12">
+            <mafo-panel selector="facturatieAdres" [collapsable]="true" [open]="true">
+                <mafo-panel-heading>
+                    <h5>
+                        FACTURATIEADRES
+                    </h5>
+                </mafo-panel-heading>
+                <mafo-panel-actions>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" [value]="facturatieAdresDisabled" [attr.checked]="facturatieAdresDisabled ? true : null" (click)="disableFacturatieAdres()">
+                            Zelfde als maatschappelijke zetel
+                        </label>
+                    </div>
+                </mafo-panel-actions>
+                <mafo-panel-body>
+                    <mafo-address [address]="klant.facturatieAdres"
+                                  [group]="klantForm.controls.facturatieAdres"
+                                  [required]="true"
+                                  [disable]="facturatieAdresDisabled">
+                    </mafo-address>
+                </mafo-panel-body>
+            </mafo-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12" formArrayName="contactPersonen">
+            <mafo-panel selector="contactpersonen" [collapsable]="true" [open]="klant && !klant.id">
+                <mafo-panel-heading>
+                    <h5>
+                        CONTACTPERSONEN
+                    </h5>
+                </mafo-panel-heading>
+                <mafo-panel-actions>
+                    <button type="button" class="btn btn-toolbar" (click)="addContact()">
+                        <i class="fa fa-plus"></i>
+                        <span class="hidden-xs hidden-sm">Toevoegen</span>
+                    </button>
+                </mafo-panel-actions>
+                <mafo-panel-body>
+                    <div class="row" *ngFor="let contactPersoon of klantForm.controls.contactPersonen.controls; let i=index; trackBy:i">
+                        <div class="col-xs-12" [formGroupName]="i">
+                            <mafo-contactpersoon [persoon]="klant.contactPersonen[i]" selector="{{'persoon' + i}}" [group]="klantForm.controls.contactPersonen.controls[i]" (hoofdContactChanged)="hoofdContactChanged(i)" (removed)="removeContactpersoon(i)"></mafo-contactpersoon>
+                        </div>
+                    </div>
+                </mafo-panel-body>
+            </mafo-panel>
+        </div>
+    </div>
+    <div class="row" *ngIf="klant && klant.id" [hidden]="limitedView">
+        <div class="col-xs-12">
+            <dp-document-panel [klantId]="klant.id"></dp-document-panel>
+        </div>
+    </div>
+    <div class="row" *ngIf="updateKlant | async">
+        <div class="col-xs-12">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-primary">Klant bewaren</button>
+            </div>
+        </div>
+    </div>
+</form>

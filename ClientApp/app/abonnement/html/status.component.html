@@ -1,0 +1,341 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="status" [collapsable]="true" [open]="true">
+            <mafo-panel-heading>
+                <h5>STATUS</h5>
+            </mafo-panel-heading>
+            <mafo-panel-actions>
+                <span class="badge pull-right text-uppercase" style="margin: 2px;">
+                    <code-display type="AbonnementStatus" [value]="data.abonnementStatus.code"></code-display>
+                </span>
+            </mafo-panel-actions>
+            <mafo-panel-body [formGroup]="statusForm">
+                <!--Read-Only-->
+                <div class="row" *ngIf="!edit">
+                    <label class="col-xs-6 col-md-2">Status</label>
+                    <p class="col-xs-6 col-md-2">
+                        <code-display id="Abonnement-status-value" type="AbonnementStatus" [value]="data.abonnementStatus.code"></code-display>
+                    </p>
+                    <label class="col-xs-6 col-md-2">Begindatum status</label>
+                    <p class="col-xs-6 col-md-2">
+                        {{data.abonnementStatusBeginDatum | date: 'dd/MM/yyyy'}}
+                    </p>
+                    <label class="col-xs-6 col-md-2">Einddatum status</label>
+                    <p class="col-xs-6 col-md-2">
+                        {{data.abonnementStatusEindDatum | date: 'dd/MM/yyyy' | nullSafe}}
+                    </p>
+                </div>
+                <ng-container *ngIf="edit">
+                    <!--Edit Mode-->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <form-group label="Status">
+                                <code-select formControlName="status"
+                                             (ngModelChange)="configureStatus($event)"
+                                             type="AbonnementStatus"
+                                             [onBeforeRender]="onBeforeRenderStatus">
+                                </code-select>
+                                <help-block type="required">Status is verplicht</help-block>
+                            </form-group>
+                        </div>
+                        <div class="col-md-4" *ngIf="status && heeftAard">
+                            <form-group label="Aard">
+                                <code-select #aardSelector
+                                             formControlName="aard"
+                                             (ngModelChange)="configureAard($event)"
+                                             type="AbonnementStatusWijzigingAard"
+                                             [onBeforeRender]="onBeforeRenderAard">
+                                </code-select>
+                                <help-block type="required">Aard is verplicht</help-block>
+                            </form-group>
+                        </div>
+                        <div class="col-md-4" *ngIf="status && heeftReden">
+                            <form-group label="Reden">
+                                <code-select #redenSelector
+                                             formControlName="reden"
+                                             (ngModelChange)="configureReden($event)"
+                                             type="AbonnementStatusWijzigingReden"
+                                             [onBeforeRender]="onBeforeRenderRedenen">
+                                </code-select>
+                                <help-block type="required">Reden is verplicht</help-block>
+                            </form-group>
+                        </div>
+                    </div>
+                    <hr *ngIf="status" />
+                    <!--GESCHORST-->
+                    <div class="row" *ngIf="status == 'GESCHORST'">
+                        <div class="col-md-6">
+                            <form-group label="Begindatum schorsing">
+                                <datepicker formControlName="beginDatum" (ngModelChange)="beginDatumChange($event)"></datepicker>
+                                <help-block type="required">Begindatum is verplicht</help-block>
+                            </form-group>
+                        </div>
+                        <div class="col-md-6">
+                            <form-group label="Einddatum schorsing">
+                                <datepicker formControlName="eindDatum" [startDate]="today"></datepicker>
+                                <help-block type="required">EindDatum is verplicht</help-block>
+                            </form-group>
+                        </div>
+                    </div>
+                    <!--INGETROKKEN-->
+                    <div *ngIf="status == 'INGETROKKEN'">
+                        <!--METOPZEG-->
+                        <div class="row">
+                            <div class="col-md-6" *ngIf="aard == 'METOPZEG'">
+                                <form-group label="Datum brief betekening opzeg">
+                                    <datepicker formControlName="briefBetekeningOpzegDatum" (ngModelChange)="briefBetekeningOpzegDatumChanged($event)"></datepicker>
+                                    <help-block type="required">Verplicht veld</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-6" *ngIf="aard">
+                                <form-group label="Einddatum abonnement">
+                                    <datepicker [startDate]="statusForm.get('eindDatumAbonnement').value" formControlName="eindDatumAbonnement"></datepicker>
+                                    <help-block type="required">Verplicht veld</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                    </div>
+                    <!--INOVERDRACHT-->
+                    <div *ngIf="status == 'INOVERDRACHT'">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form-group label="Einddatum huidige abonnement">
+                                    <datepicker [startDate]="eerstVolgendeKwartaalEindDatum" formControlName="eindDatumAbonnement" [dates]="mogelijkeEindData"></datepicker>
+                                    <help-block type="required">Verplicht veld</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-6">
+                                <form-group label="Ondernemingsnummer overnemer">
+                                    <onderneming-select (onResult)="ondernemingFound($event)" formControlName="ondernemingsnummerOvernemer"></onderneming-select>
+                                    <help-block type="required">Verplicht veld</help-block>
+                                    <help-block *ngIf="onderneming">Onderneming:&nbsp;{{onderneming?.firmanaam}}</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="control-label">Over te nemen kavels</label>
+                                <div class="alert alert-danger" role="alert" *ngIf="!kavels || kavels.length <= 0">
+                                    <i class="fa fa-exclamation-triangle"> </i>
+                                    Er kan geen overdracht van dit abonnement gebeuren, omdat het abonnement geen overdraagbare kavels (meer) heeft.
+                                </div>
+                                <div formArrayName="overTeNemenKavelIds" *ngIf="kavels && kavels.length > 0">
+                                    <a *ngFor="let kavel of kavels; let i=index; trackBy:i" class="kavel-detail" (click)="selectKavel(i, kavel)">
+                                        <span class="badge bg-green large" style="margin: 2px;" [ngClass]="{'bg-green': !kavel.enabled, 'bg-blue': kavel.enabled}">
+                                            {{kavel.oudeNaam}}
+                                            <input type="hidden" [value]="kavel.id" [formControlName]="i" />
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form-group label="Bewijsstukken overlater">
+                                    <file-upload name="bewijsstukkenOverlater" (fileChange)="fileUploaded($event)" [multiple]="true">
+                                        <ng-template let-files="files">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <a class="text-info"><i class="fa fa-plus-circle"></i></a>
+                                                        </div>
+                                                        <div class="col-md-11" *ngIf="files.length <= 0">
+                                                            <span>Bewijsstuk toevoegen</span>
+                                                        </div>
+                                                        <div class="col-md-11" *ngIf="files.length > 0">
+                                                            <span>{{files.length}}&nbsp;bestanden geselecteerd</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </file-upload>
+                                    <help-block>
+                                        Bewijsstuk van de overlater toe te voegen indien gewenst.
+                                    </help-block>
+
+                                </form-group>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <form-group label="Bewijsstukken overnemer">
+                                    <file-upload name="bewijsstukkenOvernemer" (fileChange)="fileUploaded($event)" [multiple]="true">
+                                        <ng-template let-files="files">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <a class="text-info"><i class="fa fa-plus-circle"></i></a>
+                                                        </div>
+                                                        <div class="col-md-11" *ngIf="files.length <= 0">
+                                                            <span>Bewijsstuk toevoegen</span>
+                                                        </div>
+                                                        <div class="col-md-11" *ngIf="files.length > 0">
+                                                            <span>{{files.length }}&nbsp;bestanden geselecteerd</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </file-upload>
+                                    <help-block>
+                                        Bewijsstuk van de overnemer toe te voegen indien gewenst.
+                                    </help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                    </div>
+                    <!--OPGESCHORT-->
+                    <div *ngIf="status =='OPGESCHORT'">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-info" *ngIf="data.abonnementStatus.code.toUpperCase() === 'OPGESCHORT'">
+                                    <span>Dit abonnement is momenteel reeds opgeschort. De opschorting zal verlengd worden.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form-group label="Datum ontvangst aanvraag opschorting">
+                                    <datepicker formControlName="ontvangstAanvraagOpschortingDatum"></datepicker>
+                                    <help-block type="required">Verplicht veld</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form-group label="Begindatum opschorting">
+                                    <datepicker formControlName="beginDatum" (ngModelChange)="beginDatumChange($event)"></datepicker>
+                                    <help-block type="required">Verplicht veld</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-6">
+                                <form-group label="Einddatum opschorting" [startDate]="today">
+                                    <datepicker formControlName="eindDatum"></datepicker>
+                                    <help-block type="required">Verplicht veld</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="reden && reden != 'SEIZOENSGEBONDENACTIVITEIT'">
+                            <div class="col-md-6">
+                                <form-group label="Bewijsstukken">
+                                    <file-upload name="files" (fileChange)="fileUploaded($event)" [multiple]="true">
+                                        <ng-template let-files="files">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <a class="text-info"><i class="fa fa-plus-circle"></i></a>
+                                                        </div>
+                                                        <div class="col-md-11" *ngIf="files.length <= 0">
+                                                            <span>Bewijsstuk toevoegen</span>
+                                                        </div>
+                                                        <div class="col-md-11" *ngIf="files.length > 0">
+                                                            <span>{{files.length }}&nbsp;bestanden geselecteerd</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </file-upload>
+                                    <help-block *ngIf="reden == 'ZIEKTE'">Bewijsstuk toe te voegen indien gewenst</help-block>
+                                    <help-block *ngIf="reden == 'OVERMACHT'">Bewijs toe te voegen ter motivatie indien gewenst (bv. overlijdensakte / rouwbrief)</help-block>
+                                    <help-block *ngIf="reden == 'ONGEVAL'">Bewijs van het ongeval toe te voegen indien gewenst</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                    </div>
+                    <!--OPGEZEGD-->
+                    <div *ngIf="status == 'OPGEZEGD' && aard">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form-group label="Datum ontvangst opzeg">
+                                    <datepicker [startDate]="data.abonnementStatusBeginDatum" formControlName="datumOntvangstOpzeg" (ngModelChange)="beginDatumChange($event)"></datepicker>
+                                    <help-block type="required">Verplicht veld</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-6">
+                                <form-group label="Einddatum abonnement">
+                                    <datepicker [disabled]="aard =='DIRECT'" formControlName="eindDatum" [dates]="mogelijkeEindData"></datepicker>
+                                    <help-block type="required">Verplicht veld</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                        <hr *ngIf="aard == 'DIRECT' && reden" />
+                        <div class="row" *ngIf="aard == 'DIRECT' && reden">
+                            <div class="col-md-6">
+                                <form-group label="Bewijsstukken">
+                                    <file-upload name="files" (fileChange)="fileUploaded($event)" [multiple]="true">
+                                        <ng-template let-files="files">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <a class="text-info"><i class="fa fa-plus-circle"></i></a>
+                                                        </div>
+                                                        <div class="col-md-11" *ngIf="files.length <= 0">
+                                                            <span>Bewijsstuk toevoegen</span>
+                                                        </div>
+                                                        <div class="col-md-11" *ngIf="files.length > 0">
+                                                            <span>{{files.length }}&nbsp;bestanden geselecteerd</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </file-upload>
+                                    <help-block *ngIf="reden == 'ZIEKTE'">Bewijsstuk toe te voegen indien gewenst</help-block>
+                                    <help-block *ngIf="reden == 'OVERMACHT' || reden == 'OVERLIJDENZAAKVOERDER'">
+                                        Bewijs toe te voegen ter motivatie indien gewenst (bv. overlijdensakte / rouwbrief)
+                                    </help-block>
+                                    <help-block *ngIf="reden == 'ONGEVAL'">Bewijs van het ongeval toe te voegen indien gewenst</help-block>
+                                </form-group>
+                            </div>
+                            <div class="col-md-6"></div>
+                        </div>
+                        <hr />
+                    </div>
+                    <div class="row" *ngIf="status && (heeftReden || aard)">
+                        <div class="form-group col-md-12">
+                            <form-group label="Opmerkingen">
+                                <textarea formControlName="opmerkingen" class="form-control" rows="5"></textarea>
+                            </form-group>
+                        </div>
+                    </div>
+                    <!--FOOTER STATUS-->
+                </ng-container>
+            </mafo-panel-body>
+            <mafo-panel-footer>
+                <div class="pull-right" *ngIf="canUpdate | async">
+                    <button class="btn btn-primary" (click)="editStatus()" *ngIf="!edit">
+                        <i class="fa fa-pencil"></i>
+                        Status abonnement wijzigen
+                    </button>
+                    <button class="btn btn-primary" (click)="save()" *ngIf="edit status" [disabled]="status==='INOVERDRACHT' ? !onderneming : false">
+                        Bewaren
+                    </button>
+                    <button class="btn btn-default" (click)="editStatus()" *ngIf="edit">
+                        Annuleren
+                    </button>
+                </div>
+            </mafo-panel-footer>
+        </mafo-panel>
+    </div>
+</div>
+<div id="klant-detail" class="body-content right-slider" [ngClass]="{'slide' : nieuwKlantCreatie }">
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn btn-primary" (click)="nieuwKlantCreatie = false">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <br />
+            <br />
+        </div>
+    </div>
+    <klant-detail *ngIf="onderneming" [klant]="onderneming" (onCreated)="klantCreated($event)"></klant-detail>
+</div>

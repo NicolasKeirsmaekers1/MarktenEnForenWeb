@@ -1,0 +1,77 @@
+﻿<form [formGroup]="elektriciteitForm" ngNoForm autocomplete="off">
+    <div class="row">
+        <div class="col-xs-12">
+            <mafo-panel selector="elektriciteit" [collapsable]="true" [open]="true">
+                <mafo-panel-heading>
+                    <h5>
+                        ELEKTRICITEIT
+                    </h5>
+                </mafo-panel-heading>
+                <mafo-panel-actions>
+                    <span class="badge pull-right text-uppercase" style="margin: 2px;">
+                        <code-display type="Elektriciteit" [value]="data.elektriciteit.code"></code-display>
+                    </span>
+                </mafo-panel-actions>
+                <mafo-panel-body>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Behoefte</strong>
+                        </div>
+                        <div class="col-md-3">
+                            <div *ngIf="!edit">
+                                <code-display type="Elektriciteit" [value]="data.elektriciteit.code"></code-display>
+                            </div>
+                            <div *ngIf="edit">
+                                <code-select type="Elektriciteit" formControlName="elektriciteitCode" (ngModelChange)="changeElektriciteitsBehoefte($event)"></code-select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Begindatum elektriciteit</strong>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <div *ngIf="!edit">
+                                {{data.elektriciteitBeginDatum | date: 'dd/MM/yyyy'}}
+                            </div>
+                            <div *ngIf="edit">
+                                <datepicker formControlName="begindatum" [dates]="mogelijkeStartData"></datepicker>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Einddatum elektriciteit</strong>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <div *ngIf="!edit">
+                                {{data.elektriciteitEindDatum | date: 'dd/MM/yyyy'}}
+                            </div>
+                            <div *ngIf="edit">
+                                <form-group>
+                                    <datepicker formControlName="einddatum" [dates]="mogelijkeEindData"></datepicker>
+                                    <help-block type="dateAfter">Einddatum mag niet voor Begindatum liggen</help-block>
+                                </form-group>
+                            </div>
+                        </div>
+                    </div>
+                </mafo-panel-body>
+                <mafo-panel-footer>
+                    <div class="pull-right" *ngIf="updateAbonnement | async">
+                        <button class="btn btn-primary" (click)="editElektriciteit()" *ngIf="!edit">
+                            <i class="fa fa-pencil"></i>&nbsp;Info elektriciteit wijzigen
+                        </button>
+                        <button class="btn btn-primary" (click)="saveAbonnementElektriciteitWijziging()" *ngIf="edit">Bewaren</button>
+                        <button class="btn btn-default" (click)="editElektriciteit()" *ngIf="edit">Annuleren</button>
+                    </div>
+                </mafo-panel-footer>
+            </mafo-panel>
+        </div>
+    </div>
+</form>

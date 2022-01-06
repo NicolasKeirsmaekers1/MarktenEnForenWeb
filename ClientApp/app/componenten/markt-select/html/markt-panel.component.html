@@ -1,0 +1,77 @@
+﻿<mafo-panel selector="markten" [collapsable]="true" [open]="open">
+    <mafo-panel-heading><h5>MARKTEN</h5></mafo-panel-heading>
+    <mafo-panel-actions>
+        <button id="intake-add-markt-button" class="btn btn-primary pull-right" (click)="addMarkt()" *ngIf="!componentsDisabled" [attr.disabled]="disabled || max === aanvraagMarkten.length ? 'disabled' : null">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-xs hidden-sm">Toevoegen</span>
+        </button>
+    </mafo-panel-actions>
+    <mafo-panel-body>
+        <div *ngIf="marktenLoading" [class.ajax-loading]="marktenLoading" style="height:50px"></div>
+        <ng-container *ngIf="markten.length > 0">
+            <ng-container *ngFor="let markt of aanvraagMarkten.controls; let i=index; trackBy:i">
+                <div class="row" [formGroup]="markt">
+                    <div class="col-md-6">
+                        <form-group label="District">
+                            <code-select type="District" formControlName="districtCode" (ngModelChange)="districtChanged(i, $event)" [onBeforeRender]="filterDistricten"></code-select>
+                        </form-group>
+                    </div>
+                    <div class="col-md-6">
+                        <form-group label="Markt">
+                            <div *ngIf="componentsDisabled">
+                                <select id="intake-markt-component-disabled-dropdown" class="form-control" formControlName="marktId">
+                                    <option value="">- maak uw keuze -</option>
+                                    <option [ngValue]="markt.id" *ngFor="let markt of filterMarkten(markt.controls.districtCode.value, markt.controls.marktId.value)">{{markt.naam}}</option>
+                                </select>
+                            </div>
+                            <div class="input-group" *ngIf="!componentsDisabled">
+                                <select id="intake-markt-dropdown" class="form-control" formControlName="marktId" (change)="marktChanged(i, $event.target.value)">
+                                    <option value="">- maak uw keuze -</option>
+                                    <option [ngValue]="markt.id" *ngFor="let markt of filterMarkten(markt.controls.districtCode.value, markt.controls.marktId.value)">{{markt.naam}}</option>
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default pull-right" (click)="removeMarkt(i)">
+                                        <span class="fa fa-remove fa-lg text-danger"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </form-group>
+                    </div>
+                    <div class="col-md-6">
+                        <form-group label="Kavels">
+                            <quantity-selector id="aantal-kavels-numeric-input" [min]="1" [max]="maxKavels" formControlName="aantalKavels" [readonly]="type === aanvraagSoort.RuilingCode || componentsDisabled"></quantity-selector>
+                        </form-group>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="control-label">Voorkeur</label>
+                        <input id="voorkeur-input" class="form-control" formControlName="voorkeur" type="text" placeholder="Uitleg voorkeur plaats (optioneel)" />
+                    </div>
+                </div>
+                <div class="row" [formGroup]="markt">
+                    <div class="col-md-12" *ngIf="(type !== aanvraagSoort.NieuwePlaatsCode && type !== aanvraagSoort.PlaatsKwijtgeraaktCode) && !componentsDisabled ">
+                        <mafo-panel>
+                            <mafo-panel-heading>
+                                <h5>
+                                    Abonnementen
+                                </h5>
+                            </mafo-panel-heading>
+                            <mafo-panel-body>
+                                <div class="row" (click)="selectAbonnement(abonnement, i, $event)" *ngFor="let abonnement of abonnementen; let j = index">
+                                    <div class="col-xs-12">
+                                        <div class="well">
+                                            <div class="badge">Abonnement {{j+1}}</div>
+                                            <span class="badge large" style="margin: 2px;" *ngFor="let kavel of abonnement.kavels" [ngClass]="{ 'bg-blue' : abonnement.id === markt.controls.abonnementId.value, 'bg-green' : abonnement.id !== markt.controls.abonnementId.value }">
+                                                {{kavel.oudeNaam}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mafo-panel-body>
+                        </mafo-panel>
+                    </div>
+                </div>
+                <hr *ngIf="i < aanvraagMarkten.controls.length - 1" />
+            </ng-container>
+        </ng-container>
+    </mafo-panel-body>
+</mafo-panel>

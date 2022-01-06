@@ -1,0 +1,41 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="title" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <h3 id="title-reservatie">
+                    Reservaties
+                </h3>
+            </mafo-panel-heading>
+            <mafo-panel-body>
+                <div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <search (search)="searchReservaties($event)"></search>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <dp-datagrid [data]="data" [options]="gridOptions" (fetchData)="fetchData($event)" (rowClicked)="rowClicked($event)">
+                                <ng-template #rowTemplate let-item="item" let-index="index">
+                                    <td [style.color]="item.weigeringstermijnGestart === true ? 'green' : 'red'">
+                                        {{item.datum | date: 'dd/MM/yyyy'}}
+                                    </td>
+                                    <td [style.color]="item.weigeringstermijnGestart ? 'green' : 'red'">{{item.ondernemingsNr| stringformat: 'xxxx.xxx.xxx'}}</td>
+                                    <td [style.color]="item.weigeringstermijnGestart ? 'green' : 'red'">{{item.firmanaam}}</td>
+                                    <td [style.color]="item.weigeringstermijnGestart ? 'green' : 'red'">
+                                        <code-display type="aanvraagsoort" [value]="item.soort"></code-display>
+                                    </td>
+                                    <td [style.color]="item.weigeringstermijnGestart ? 'green' : 'red'">
+                                        <span class="markt-in-overview"><span class="badge">{{item.markten[0]}}</span></span>
+                                        <span *ngIf="item.markten.length > 1" [attr.title]="marktenTooltip(item.markten)"><span class="badge">+{{item.markten.length-1}}</span></span>
+                                    </td>
+                                </ng-template>
+                            </dp-datagrid>
+                        </div>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

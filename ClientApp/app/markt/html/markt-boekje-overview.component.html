@@ -1,0 +1,32 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="title" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <h3>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span class="fa fa-dot-circle-o" id="title-marktboekje"></span>&nbsp;
+                            {{pageTitle}}
+                        </div>
+                    </div>
+                </h3>
+            </mafo-panel-heading>
+            <mafo-panel-body>
+                <div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <search (search)="searchMarkten($event)"></search>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <dp-datagrid [data]="data" [options]="gridOptions" (fetchData)="fetchData($event)" (rowClicked)="rowClicked($event)">
+                            </dp-datagrid>
+                        </div>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

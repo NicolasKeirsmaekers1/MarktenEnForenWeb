@@ -1,0 +1,218 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="title" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <h3 id="title-beheer-variabelen">
+                    <span class="fa fa-cogs"></span>&nbsp;
+                    {{pageTitle}}
+                </h3>
+            </mafo-panel-heading>
+            <mafo-panel-actions>
+                <div class="pull-right">
+                    <a id="new-variabelen-button" class="btn btn-primary" [ngClass]="{'disabled' : edit }" routerLink="/beheer/variabelen/{{code}}/nieuw" *ngIf="code != 'standplaatsTarief'&&code != 'elektriciteitTarief'">
+                        <i class="fa fa-plus"></i>
+                        <span class="hidden-sm hidden-xs">&nbsp;&nbsp;{{code=='district' || code=='product' ? 'Nieuw' : 'Nieuwe'}} {{code}}</span>
+                    </a>
+                    <a id="new-wijzigen-button" class="btn btn-primary" [ngClass]="{'disabled' : edit }" (click)="toggleEdit()">
+                        <i class="fa fa-edit"></i>
+                        <span class="hidden-sm hidden-xs">&nbsp;&nbsp;Wijzigen</span>
+                    </a>
+                </div>
+            </mafo-panel-actions>
+            <mafo-panel-body>
+                <div class="row">
+                    <div class="col-md-3">
+                        <select id="beheer-variabelen-dropdown" class="form-control" (ngModelChange)="onCodeChange($event)" [disabled]="edit" [ngModel]="code">
+                            <option value="" selected="selected">- maak uw keuze -</option>
+                            <option value="standplaatsTarief">Tarief standplaats</option>
+                            <option value="elektriciteitTarief">Tarief elektriciteit</option>
+                            <option value="district">District</option>
+                            <option value="dieptekavelsapmateriaalcode">Dieptekavel Sap materiaalcode</option>
+                            <option value="elektriciteitsapmateriaalcode">Elektriciteit Sap materiaalcode</option>
+                            <option value="standplaatssapmateriaalcode">Standplaats Sap materiaalcode</option>
+                            <option value="juridischeentiteit">Juridische entiteit</option>
+                            <option value="uitstalling">Uitstalling</option>
+                            <option value="locatie">Locatie</option>
+                            <option value="product">Product</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <dp-slider label="Toon niet-actief" [ngModel]="boolToggleActive" (ngModelChange)="toggleActive($event)"></dp-slider>
+                    </div>
+                </div>
+                <br /><!--huehuehueheheuehue-->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form [formGroup]="codesForm">
+                            <div formArrayName="codes">
+                                <dp-datagrid #datagrid [data]="data" [options]="gridOptions">
+                                    <ng-template #rowTemplate let-item="item" let-index="index" *ngIf="!edit && code != 'locatie' && code != 'product'&& code != 'standplaatsTarief' && code !='elektriciteitTarief'">
+                                        <!--Display mode-->
+                                        <!--Default template-->
+                                        <td>{{item.code}}</td>
+                                        <td>{{item.omschrijving}}</td>
+                                        <td *ngIf="code === 'dieptekavelsapmateriaalcode'">{{getValue(item.dieptekavelStatusId)}}</td>
+                                        <td *ngIf="code === 'elektriciteitsapmateriaalcode'">{{item.elektriciteitId}}</td>
+                                        <td *ngIf="code === 'standplaatssapmateriaalcode'">{{item.marktId}}</td>
+                                        <td *ngIf="code === 'juridischeentiteit'">{{item.afkorting}}</td>
+                                    </ng-template>
+                                    <ng-template #rowTemplate let-item="item" let-index="index" *ngIf="!edit && code === 'locatie'">
+                                        <!--Display mode-->
+                                        <!--Location template-->
+                                        <td>{{item.naam}}</td>
+                                        <td>{{item.districtCode}}</td>
+                                    </ng-template>
+                                    <ng-template #rowTemplate let-item="item" let-index="index" *ngIf="!edit && code === 'product'">
+                                        <!--Display mode-->
+                                        <!--Product template-->
+                                        <td>{{item.omschrijving}}</td>
+                                        <td>{{item.geldigVan}}</td>
+                                        <td>{{item.geldigTot}}</td>
+                                    </ng-template>
+                                    <ng-template #rowTemplate let-item="item" let-index="index" *ngIf="!edit && code === 'standplaatsTarief'">
+                                        <!--Display mode-->
+                                        <!--Standplaats tarief template-->
+                                        <td>{{item.dagVanDeWeekId}}</td>
+                                        <td>{{item.omschrijving}}</td>
+                                        <td>{{item.eenheidsPrijs}}</td>
+                                    </ng-template>
+                                    <ng-template #rowTemplate let-item="item" let-index="index" *ngIf="!edit && code === 'elektriciteitTarief'">
+                                        <!--Display mode-->
+                                        <!--Elektriciteit tarief template-->
+                                        <td>{{item.elektriciteitsId}}</td>
+                                        <td>{{item.eenheidsPrijs}}</td>
+                                        <td>{{item.omschrijving}}</td>
+                                    </ng-template>
+                                    <ng-template #rowTemplate let-item="item" let-index="index" *ngIf="edit && code != 'locatie' && code != 'product' && code != 'standplaatsTarief' && code !='elektriciteitTarief'">
+                                        <!--Edit mode-->
+                                        <td [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" class="form-control" formControlName="code" />
+                                            </form-group>
+                                        </td>
+                                        <td [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" class="form-control" formControlName="omschrijving" />
+                                            </form-group>
+                                        </td>
+                                       
+                                        <td *ngIf="code === 'dieptekavelsapmateriaalcode'" [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" class="form-control" formControlName="dieptekavelStatusId" />
+                                            </form-group>
+                                        </td>
+                                        <td *ngIf="code === 'elektriciteitsapmateriaalcode'" [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" class="form-control" formControlName="elektriciteitId" />
+                                            </form-group>
+                                        </td>
+                                        <td *ngIf="code === 'standplaatssapmateriaalcode'" [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" class="form-control" formControlName="marktId" />
+                                            </form-group>
+                                        </td>
+                                        <td *ngIf="code === 'juridischeentiteit'" [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" class="form-control" formControlName="afkorting" />
+                                            </form-group>
+                                        </td>
+                                    </ng-template>
+                                    <ng-template #rowTemplate let-item="item" let-index="index" *ngIf="edit && code === 'locatie'">
+                                        <!--Edit mode-->
+                                        <!--Location template-->
+                                        <td [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" class="form-control" formControlName="naam" />
+                                            </form-group>
+                                        </td>
+                                        <td [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" class="form-control" formControlName="districtCode" />
+                                            </form-group>
+                                        </td>
+                                    </ng-template>
+                                    <ng-template #rowTemplate let-item="item" let-index="index" *ngIf="edit && code === 'product'">
+                                        <!--Edit mode-->
+                                        <!--Product template-->
+                                        <td [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" class="form-control" formControlName="omschrijving" />
+                                            </form-group>
+                                        </td>
+                                        <td [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" class="form-control" formControlName="geldigVan" />
+                                            </form-group>
+                                        </td>
+                                        <td [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" class="form-control" formControlName="geldigTot" />
+                                            </form-group>
+                                        </td>
+                                    </ng-template>
+                                    <ng-template #rowTemplate let-item="item" let-index="index" *ngIf="edit && code === 'standplaatsTarief'">
+                                        <!--Edit mode-->
+                                        <!--Standplaats tarief template-->
+                                        <td [formGroupName]="index">
+                                            {{item.dagVanDeWeekId}}
+                                            <form-group hidden="hidden">
+                                                <input type="text" class="form-control" formControlName="dagVanDeWeekId" />
+                                            </form-group>
+                                        </td>
+                                        <td [formGroupName]="index">
+                                            {{item.omschrijving}}
+                                            <form-group hidden="hidden">
+                                                <input type="text" class="form-control" formControlName="omschrijving" />
+                                            </form-group>
+                                        </td>
+                                        <td [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" class="form-control" formControlName="eenheidsPrijs" />
+                                            </form-group>
+                                        </td>
+                                    </ng-template>
+                                    <ng-template #rowTemplate let-item="item" let-index="index" *ngIf="edit && code === 'elektriciteitTarief'">
+                                        <!--Edit mode-->
+                                        <!--Elektriciteit tarief template-->
+                                        <td [formGroupName]="index" >
+                                            {{item.elektriciteitsId}}
+                                            <form-group hidden="hidden">
+                                                <input type="text" class="form-control" formControlName="elektriciteitId" />
+                                            </form-group>
+                                        </td>
+                                        <td [formGroupName]="index">
+                                            <form-group>
+                                                <input type="text" value="{{item.eenheidsPrijs}}" class="form-control" formControlName="eenheidsPrijs" />
+                                            </form-group>
+                                        </td>
+                                        <td [formGroupName]="index">
+                                            {{item.omschrijving}}
+                                            <form-group hidden="hidden">
+                                                <input type="text" class="form-control" formControlName="omschrijving" />
+                                            </form-group>
+                                        </td>
+                                    </ng-template>
+                                    <ng-template #rowActions let-item="item" let-index="index" *ngIf="!edit && code !='elektriciteitTarief' && code != 'standplaatsTarief'">
+                                        <ng-container>
+                                            <button title="Verwijderen" class="btn btn-danger btn-xs btn-delete" [attr.data-id]="item.id" (click)="showDeleteModal(item)">
+                                                <i class="fa fa-trash-o"></i>
+                                            </button>
+                                        </ng-container>
+                                    </ng-template>
+                                </dp-datagrid>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>
+<div class="row" *ngIf="edit">
+    <div class="col-xs-12">
+        <div class="pull-right">
+            <button type="submit" class="btn btn-primary" [disabled]="codesForm.invalid" (click)="submitForm(); toggleEdit()">Bewaren</button>
+            <button type="button" class="btn btn-primary" (click)="toggleEdit()">Annuleren</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+﻿<section [attr.id]="selector + '-parent'" class="panel panel-default" [ngClass]="{'panel-loading': loading}">
+    <div class="panel-heading" [hidden]="!showHeader && !showActions">
+        <div class="panel-title" [hidden]="!showHeader">
+            <a #panelHeader
+               [attr.aria-controls]="selector"
+               [attr.data-toggle]="collapsable ? 'collapse' : null"
+               [attr.data-parent]="collapsable ? '#' + selector + '-parent' : null"
+               [attr.href]="collapsable ? '#' + selector : null"
+               [class.accordion-toggle]="collapsable"
+               [name]="selector">
+                <ng-content select="mafo-panel-heading"></ng-content>
+            </a>
+        </div>
+        <div #panelActions class="panel-actions" [hidden]="!showActions">
+            <ng-content select="mafo-panel-actions"></ng-content>
+        </div>
+    </div>
+    <div [attr.id]="selector" [ngClass]="setPanelClasses()">
+        <div #panelBody [ngClass]="{'panel-body': padding}" [hidden]="!showBody || (!open && !collapsable)">
+            <ng-content select="mafo-panel-body"></ng-content>
+        </div>
+        <div class="panel-footer" [hidden]="!showFooter || (!open && !collapsable)">
+            <div #panelFooter>
+                <ng-content select="mafo-panel-footer"></ng-content>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</section>

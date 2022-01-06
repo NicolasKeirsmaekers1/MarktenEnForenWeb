@@ -1,0 +1,95 @@
+﻿<form [formGroup]="codeForm" (ngSubmit)="onSubmit($event)" ngNoForm autocomplete="off">
+    <div class="row">
+        <div class="col-xs-12">
+            <mafo-panel selector="title" [collapsable]="false" [open]="true">
+                <mafo-panel-heading>
+                    <h3>
+                        <span class="fa fa-cogs"></span>&nbsp;
+                        {{pageTitle}}
+                    </h3>
+                </mafo-panel-heading>
+                <mafo-panel-body>
+                    <div class="col-xs-12 col-md-6" *ngIf="code !== 'locatie' && code!='product'">
+                        <form-group label="Code">
+                            <input class="form-control" type="text" formControlName="code" />
+                            <help-block type="required">Code is verplicht</help-block>
+                        </form-group>
+                    </div>
+                    <div class="col-xs-12 col-md-6" *ngIf="code !== 'locatie' && code !=='district'">
+                        <form-group label="Omschrijving">
+                            <input class="form-control" type="text" formControlName="omschrijving" />
+                            <help-block type="required">Omschrijving is verplicht</help-block>
+                        </form-group>
+                    </div>
+                    <div class="col-xs-12 col-md-6" *ngIf="code === 'locatie' || code ==='district'">
+                        <form-group label="Naam">
+                            <input class="form-control" type="text" formControlName="naam" />
+                            <help-block type="required">Naam is verplicht</help-block>
+                        </form-group>
+                    </div>
+                    <div class="col-xs-12 col-md-6" *ngIf="code === 'dieptekavelsapmateriaalcode'">
+                        <form-group label="Dieptekavelstatus">
+                            <br />
+                            <select class="form-control" ng-model="statusId" formControlName="dieptekavelStatusId">
+                                <option value="0"></option>
+                                <option value="1">Niet beschikbaar</option>
+                                <option value="2">Niet in gebruik</option>
+                                <option value="3">In gebruik</option>
+                            </select>
+                            <help-block type="required">Dieptekavelstatus is verplicht</help-block>
+                        </form-group>
+                    </div>
+                    <div class="col-xs-12 col-md-6" *ngIf="code === 'elektriciteitsapmateriaalcode'">
+                        <form-group label="Elektriciteit">
+                            <input class="form-control" type="text" formControlName="elektriciteitId" />
+                            <help-block type="required">elektriciteit id is verplicht</help-block>
+                        </form-group>
+                    </div>
+                    <div class="col-xs-12 col-md-6" *ngIf="code === 'standplaatssapmateriaalcode'">
+                        <form-group label="Markt">
+                            <!--<input class="form-control" type="text" formControlName="marktId"  />-->
+                            <select class="form-control" formControlName="marktId" *ngIf="markten">
+                                <option value="0">- Markt -</option>
+                                <option *ngFor="let markt of markten" [value]="markt.id">{{markt.naam}}</option>
+                            </select>
+                            <help-block type="required">Markt is verplicht</help-block>
+                        </form-group>
+                    </div>
+                    <div class="col-xs-12 col-md-6" *ngIf="code === 'juridischeentiteit'">
+                        <form-group label="Afkorting">
+                            <input class="form-control" type="text" formControlName="afkorting" />
+                            <help-block type="required">Afkorting is verplicht</help-block>
+                        </form-group>
+                    </div>
+                    <div class="col-xs-12 col-md-6" *ngIf="code === 'locatie'">
+                        <form-group label="District">
+                            <code-select type="District" formControlName="districtCode" ></code-select>
+
+                            
+                            <help-block type="required">District is verplicht</help-block>
+                        </form-group>
+                    </div>
+                    <div class="col-xs-12 col-md-6" *ngIf="code === 'product'">
+                        <form-group label="Geldig van">
+                            <input class="form-control" type="text" formControlName="geldigVan" />
+                           
+                            <help-block type="required">Geldig van is verplicht</help-block>
+                        </form-group>
+                        <form-group label="Geldig tot">
+                            <input class="form-control" type="text" formControlName="geldigTot" />
+
+                            <help-block type="required">Geldig tot is verplicht</help-block>
+                        </form-group>
+                    </div>
+                </mafo-panel-body>
+            </mafo-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-primary">Code bewaren</button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,47 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="title" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <h3>
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <span class="fa fa-dot-circle-o" id="title-markt-beheer"></span>&nbsp;
+                            {{pageTitle}}
+                        </div>
+                        <div class="col-xs-2">
+                            <a *ngIf="addMarkt | async" id="new-markt-button" class="btn btn-primary pull-right" routerLink="/markt/nieuw">
+                                <i class="fa fa-plus"></i>
+                                <span class="hidden-sm hidden-xs">&nbsp;&nbsp;Nieuwe markt</span>
+                            </a>
+                        </div>
+                    </div>
+                </h3>
+            </mafo-panel-heading>
+            <mafo-panel-body>
+                <div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <search (search)="searchMarkten($event)"></search>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <dp-datagrid [data]="data" [options]="gridOptions" (fetchData)="fetchData($event)" (rowClicked)="rowClicked($event)">
+                                <ng-template #rowTemplate let-item="item" let-index="index">
+                                    <td>{{item.naam}}</td>
+                                    <td>{{item.afkorting}}</td>
+                                </ng-template>
+                                <ng-template #rowActions let-item="item" let-index="index">
+                                    <button *ngIf="deleteMarkt | async" title="Verwijderen" class="btn btn-danger btn-xs btn-delete" [attr.data-id]="item.id" (click)="showDeleteModal(item)">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </ng-template>
+                            </dp-datagrid>
+                        </div>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="title" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <h3><strong>Wachtlijst</strong></h3>
+                <h5>
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;
+                    <code-display type="district" [value]="markt.districtCode"></code-display>&nbsp;&nbsp;
+                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>&nbsp;
+                    <location-display [value]="markt.locatieId"></location-display>&nbsp;&nbsp;
+                    <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
+                    <code-display type="dagvandeweek" [value]="markt.dagVanDeWeekCode"></code-display>
+                </h5>
+            </mafo-panel-heading>
+            <mafo-panel-body>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <dp-datagrid [data]="data" [options]="gridOptions" (fetchData)="fetchData($event)" (rowClicked)="rowClicked($event)">
+                            <ng-template #rowTemplate let-item="item" let-index="index">
+                                <td [ngClass]="{'priority-item': item.priorityItem}">
+                                    <code-display type="AanvraagSoort" [value]="item?.soortCode"></code-display><span *ngIf="item.verkoopCode === 'DEMONSTREERDER'">&nbsp;(Demo)</span>
+                                </td>
+                                <td [ngClass]="{'priority-item': item.priorityItem}">
+                                    {{item.volgnummer + 1}}
+                                </td>
+                                <td [ngClass]="{'priority-item': item.priorityItem}">
+                                    {{item.ondernemingsNummer| stringformat: 'xxxx.xxx.xxx'}}
+                                </td>
+                                <td [ngClass]="{'priority-item': item.priorityItem}">
+                                    {{item.firmanaam}}
+                                </td>
+                                <td [ngClass]="{'priority-item': item.priorityItem}">
+                                    {{item.UitgesteldDatum | nullSafe}}
+                                </td>
+                                <td [ngClass]="{'priority-item': item.priorityItem}">
+                                    <span title="Aantal aangevraagde kavels" class="badge" [ngClass]="{'bg-red': item.toewijsbareKavels!=0}">
+                                        {{item.aangevraagdeKavels}}
+                                    </span>
+                                </td>
+                            </ng-template>
+                        </dp-datagrid>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

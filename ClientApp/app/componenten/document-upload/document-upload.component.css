@@ -1,0 +1,64 @@
+﻿input[type="file"] {
+    display: none;
+}
+
+.form-inline button {
+   padding: 3px 10px;
+}
+
+.form-inline span {
+    padding: 2px 5px;
+}
+
+/*.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+    .inputfile + label {
+        margin-top: 1.65em;
+        display: inline-block;
+        margin-bottom: 0;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 2px;
+        color: #fff;
+        background-color: #1c7ebb;
+        cursor: pointer;
+    }
+
+    .inputfile:disabled + label {
+        cursor: not-allowed;
+        pointer-events: none;
+        opacity: .65;
+        filter: alpha(opacity=65);
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
+    .inputfile:focus + label {
+        outline: 1px dotted #000;
+        outline: -webkit-focus-ring-color auto 5px;
+    }
+
+    .inputfile:focus + label,
+    .inputfile + label:hover {
+        color: #fff;
+        background-color: #176698;
+        border-color: #114b70;
+    }
+
+    .inputfile + label * {
+        pointer-events: none;
+    }*/

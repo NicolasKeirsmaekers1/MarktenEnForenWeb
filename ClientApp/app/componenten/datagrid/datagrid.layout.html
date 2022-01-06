@@ -1,0 +1,77 @@
+﻿<div [class.table-responsive]="settings.responsive">
+    <table [ngClass]="setTableCss()" [class.fetchData]="isLoading">
+        <thead (click)="sortField($event)">
+            <tr>
+                <th *ngFor="let field of settings.fields" [attr.data-sort]="field.field" [class.sortable]="field.sortable" [ngStyle]="{ width: field.width }">
+                    {{field.title || ""}}
+                    <span *ngIf="field.sortable" [ngClass]="calculateSortOrder(field)" class="sort-icon glyphicon pull-right"></span>
+                </th>
+                <th [hidden]="!rowActions">
+                </th>
+            </tr>
+        </thead>
+        <tbody (click)="clickRow($event)">
+            <tr *ngIf="!resourceList || resourceList.length <= 0" class="empty">
+                <td [attr.colspan]="settings.fields.length + (!rowActions ? 1 : 0)">
+                    Geen gegevens gevonden
+                </td>
+            </tr>
+            <tr *ngFor="let item of resourceList; let i=index; trackBy:i" [attr.data-index]="i" data-type="display" [class.active]="i == settings.selectedIndex" [style.cursor]="rowClicked.observers.length > 0 ? 'pointer' : 'inherit'">
+                <ng-container *ngIf="!rowTemplate">
+                    <td *ngFor="let field of settings.fields" [ngStyle]="{ width: field.width }">
+                        {{displayField(item, field.field)}}
+                    </td>
+                </ng-container>
+                <ng-template [ngTemplateOutlet]="rowTemplate" [ngTemplateOutletContext]="{ item: item, index: i}" *ngIf="rowTemplate">
+                </ng-template>
+                <td data-type="actions" class="text-right actions" *ngIf="rowActions">
+                    <ng-template [ngTemplateOutlet]="rowActions" [ngTemplateOutletContext]="{ item: item, index: i}">
+                    </ng-template>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="settings.showPaging">
+    <hr />
+    <div class="row form-inline">
+        <div class="col-sm-12 col-md-6">
+            <select class="form-control" [(ngModel)]="settings.paging.size" (ngModelChange)="pageSizeChanged()" [disabled]="isLoading">
+                <option *ngFor="let ps of settings.pageSizes" [ngValue]="ps">{{ps}}</option>
+            </select>
+            &nbsp;&nbsp;
+            <label id="records-count-display">{{pageDisplayContext()}}</label>
+        </div>
+        <div class="col-sm-12 col-md-6 text-right">
+            <nav>
+                <ul class="pagination" (click)="currentPageChanged($event)">
+                    <li [class.disabled]="settings.paging.number == 1 || isLoading">
+                        <a href="javascript:void()" data-action="first">
+                            <span aria-hidden="true" class="glyphicon glyphicon-fast-backward"></span>
+                        </a>
+                    </li>
+                    <li [class.disabled]="settings.paging.number == 1 || isLoading">
+                        <a href="javascript:void()" data-action="previous">
+                            <span aria-hidden="true" class="glyphicon glyphicon-backward"></span>
+                        </a>
+                    </li>
+                    <ng-container *ngFor="let p of settings.paging.totalPages | fill">
+                        <li [class.active]="p == settings.paging.number" *ngIf="pageIsVisible(p)" [class.disabled]="isLoading">
+                            <a [attr.data-page]="p" href="#">{{p}} <span class="sr-only">(current)</span></a>
+                        </li>
+                    </ng-container>
+                    <li [class.disabled]="settings.paging.number == settings.paging.totalPages || isLoading">
+                        <a href="javascript:void()" data-action="next">
+                            <span aria-hidden="true" class="glyphicon glyphicon-forward"></span>
+                        </a>
+                    </li>
+                    <li [class.disabled]="settings.paging.number == settings.paging.totalPages || isLoading">
+                        <a href="javascript:void()" data-action="last">
+                            <span aria-hidden="true" class="glyphicon glyphicon-fast-forward"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

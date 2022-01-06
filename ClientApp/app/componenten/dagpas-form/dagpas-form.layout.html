@@ -1,0 +1,12 @@
+﻿<klant-detail [selectType]="false" [klant]="klant"></klant-detail>
+
+<form [formGroup]="elektriciteitForm" ngNoForm autocomplete="off" (ngSubmit)="onKlantSubmit()">
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <form-group label="Elektriciteit">
+                <code-select type="ElektriciteitDagpas" formControlName="elektriciteitCode"></code-select>
+                <help-block type="required">Elektriciteit is verplicht</help-block>
+            </form-group>
+        </div>
+    </div>
+</form>

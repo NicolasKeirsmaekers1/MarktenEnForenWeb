@@ -1,0 +1,50 @@
+﻿.day {
+}
+
+.old {
+}
+
+    .old.day {
+        background-color: whitesmoke !important;
+        border-radius: 0;
+    }
+
+.new {
+}
+
+    .new.day {
+        background-color: whitesmoke !important;
+        border-radius: 0;
+    }
+
+.day.disabled {
+    background-color: whitesmoke !important;
+    color: lightgray !important;
+    border-radius: 0 !important;
+}
+
+.day.today {
+    background-color: cornflowerblue;
+}
+
+.bg-green-striped {
+    color: white;
+    background: -webkit-repeating-linear-gradient(-45deg, #77b947, #77b947 10px, #538c2b 10px, #538c2b 20px);
+    background: repeating-linear-gradient(-45deg, #77b947, #77b947 10px, #538c2b 10px, #538c2b 20px);
+}
+
+.bg-orange-striped {
+    color: white;
+    background: -webkit-repeating-linear-gradient(-45deg, #f6a752, #f6a752 10px, #ffc155 10px, #ffc155 20px);
+    background: repeating-linear-gradient(-45deg, #f6a752, #f6a752 10px, #ffc155 10px, #ffc155 20px);
+}
+
+.klant-changed {
+    background-color: #ffe2e2 !important;
+}
+
+/*Toegankelijkheid voorzien*/
+img[alt=""],
+img:not([alt]) {
+    border: 5px dashed #c00;
+}

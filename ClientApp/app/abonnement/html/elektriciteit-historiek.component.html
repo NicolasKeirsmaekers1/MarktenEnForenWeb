@@ -1,0 +1,19 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="elektriciteithistoriek" [collapsable]="true" [open]="true">
+            <mafo-panel-heading>
+                <h5>
+                    ELEKTRICITEIT HISTORIEK
+                </h5>
+            </mafo-panel-heading>
+            <mafo-panel-body>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <dp-datagrid [data]="historiekElektriciteit" [options]="gridOptions" (fetchData)="fetchData($event)">
+                        </dp-datagrid>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

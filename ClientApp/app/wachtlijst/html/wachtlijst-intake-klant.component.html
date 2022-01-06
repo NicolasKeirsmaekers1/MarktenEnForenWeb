@@ -1,0 +1,44 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <mafo-panel selector="title" [collapsable]="false" [open]="true">
+            <mafo-panel-heading>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3>
+                            <span class="fa fa-dot-circle-o"></span>&nbsp;
+                            {{pageTitle}}
+                        </h3>
+                    </div>
+                </div>
+            </mafo-panel-heading>
+            <mafo-panel-body>
+                <div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <select class="form-control" (change)="isCommercieel($event.target.value)">
+                                <option selected="selected" value="TRUE">Commercieel</option>
+                                <option value="FALSE">Niet-commercieel</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <search (search)="searchKlanten($event)"></search>
+                        </div>
+                        <div class="col-md-7">
+                            <a class="btn btn-primary pull-right" (click)="nieuweKlant()">
+                                <i class="fa fa-plus"></i>
+                                <span class="hidden-sm hidden-xs">&nbsp;&nbsp;Nieuwe klant</span>
+                            </a>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <dp-datagrid id="new-intake-klanten-table" [data]="data" [options]="gridOptions" (fetchData)="fetchData($event)" (rowClicked)="rowClicked($event)">
+                            </dp-datagrid>
+                        </div>
+                    </div>
+                </div>
+            </mafo-panel-body>
+        </mafo-panel>
+    </div>
+</div>

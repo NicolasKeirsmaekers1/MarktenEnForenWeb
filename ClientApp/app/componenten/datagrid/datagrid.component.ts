@@ -4,7 +4,7 @@ import { IColumnOptions, IGridOptions, IPage, IPagedResult, IQueryParameters, So
 
 @Component({
     selector: "dp-datagrid",
-    styleUrls: ["./datagrid.component.css"],
+    styleUrls: ["./datagrid.component.scss"],
     templateUrl: "./datagrid.layout.html"
 })
 export class DataGrid<TObject> implements OnInit, OnChanges {

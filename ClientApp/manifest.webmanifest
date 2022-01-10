@@ -1,0 +1,11 @@
+{
+  "name": "MARKTENENFOREN",
+  "short_name": "MARKTENENFOREN",
+  "theme_color": "#CF0039",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+  ]
+}

@@ -20,7 +20,7 @@ import {
   providers: [ProductService],
   selector: 'mafo-standplaats',
   templateUrl: './html/standplaats.component.html',
-  styleUrls: ['./html/standplaats.component.css'],
+  styleUrls: ['./html/standplaats.component.scss'],
 })
 export class StandplaatsComponent implements OnInit {
   @Input() data: any;

@@ -25,7 +25,7 @@ interface IKlant {
 @Component({
     selector: "mafo-app",
     templateUrl: "./html/markt-boekje-detail.component.html",
-    styleUrls: ["./html/markt-boekje-detail.component.css"]
+    styleUrls: ["./html/markt-boekje-detail.component.scss"]
 })
 export class MarktBoekjeDetailComponent implements OnInit {
     pageTitle: string = "Marktboekje";

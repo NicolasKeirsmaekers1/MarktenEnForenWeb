@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 @Component({
     selector: "mafo-panel",
     templateUrl: "./app.shared.panel.layout.html",
-    styleUrls: ["./app.shared.panel.css"],
+    styleUrls: ["./app.shared.panel.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MafoPanelComponent {

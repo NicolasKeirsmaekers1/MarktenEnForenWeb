@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'dp-document-upload',
-    styleUrls: ["./document-upload.component.css"],
+    styleUrls: ["./document-upload.component.scss"],
     templateUrl: './document-upload.layout.html'
 })
 export class DocumentUploadComponent implements OnInit {

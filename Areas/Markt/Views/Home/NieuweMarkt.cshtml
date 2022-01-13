@@ -1,0 +1,205 @@
+﻿<h2><a href="#"><i class="fa fa-arrow-circle-o-left lighter"></i></a>&nbsp;Nieuwe Markt</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Naam markt</label>
+            <input class="form-control" type="text">
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">Afkorting</label>
+            <input class="form-control" type="text">
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">Aantal kavels</label>
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" data-direction="down">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </span>
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" data-direction="up">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">District</label>
+            <select class="form-control">
+                <option value="">--</option>
+                <option value="1">Test1</option>
+                <option value="2">Test2</option>
+            </select>
+            <span class="field-validation-valid" data-valmsg-for="Body" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Locatie</label>
+            <select class="form-control">
+                <option value="">--</option>
+                <option value="1">Test1</option>
+                <option value="2">Test2</option>
+            </select>
+            <span class="field-validation-valid" data-valmsg-for="Body" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <h4>Agenda</h4>
+    <hr>
+</div>
+
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label class="control-label">Startdatum</label>
+        <div class="input-group date" data-date-format="dd/mm/yyyy">
+            <input placeholder="Startdatum" class="form-control" type="text">
+            <span class="input-group-addon" style="background-color: #428bca; border-color: #357ebd"><i class="fa fa-calendar btn-primary" style="background-color: #428bca"></i></span>
+        </div>
+        <script>
+            $(function () {
+                var $textbox = $('#Body_0__GeldigVan');
+                $textbox.parent().datepicker({
+                    format: "dd/mm/yyyy",
+                    weekStart: 1,
+                    language: 'nl',
+                    todayHighlight: true
+                });
+            });
+        </script>
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="control-label">Einddatum</label>
+        <div class="input-group date" data-date-format="dd/mm/yyyy">
+            <input placeholder="Einddatum" class="form-control" type="text">
+            <span class="input-group-addon" style="background-color: #428bca; border-color: #357ebd"><i class="fa fa-calendar btn-primary" style="background-color: #428bca"></i></span>
+        </div>
+        <script>
+            $(function () {
+                var $textbox = $('#Body_0__GeldigVan');
+                $textbox.parent().datepicker({
+                    format: "dd/mm/yyyy",
+                    weekStart: 1,
+                    language: 'nl',
+                    todayHighlight: true
+                });
+            });
+        </script>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">Herhaling</label>
+            <select class="form-control">
+                <option value="">--</option>
+                <option value="1">Test1</option>
+                <option value="2">Test2</option>
+            </select>
+            <span class="field-validation-valid" data-valmsg-for="Body" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">Dag van de week</label>
+            <select class="form-control">
+                <option value="">--</option>
+                <option value="1">Test1</option>
+                <option value="2">Test2</option>
+            </select>
+            <span class="field-validation-valid" data-valmsg-for="Body" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">Van</label>
+            <div class="input-group bootstrap-timepicker">
+                <input class="form-control input-small" type="text">
+                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">Tot</label>
+            <div class="input-group bootstrap-timepicker">
+                <input class="form-control input-small" type="text">
+                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <hr>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion-kavels" href="#collapse-kavels" class="">Kavels</a>
+        </h3>
+    </div>
+    <div id="collapse-kavels" class="panel-collapse collapse" style="height: 0px;">
+        <div class="panel-body">
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <p>Geen kavels</p>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-6 new-document">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <a class="text-info btn btn-add-document">
+                                <div class="col-md-1">
+                                    <i class="fa fa-plus-circle"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <span><i>Kavels in bulk bewerken</i></span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 document-template hide text-center">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <input style="position:absolute; left: -2000px;">
+                        <label class="btn btn-primary btn-upload"><i class="fa fa-upload"></i>&nbsp;Selecteer &amp; laad op</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <a href="#"> <i class="fa fa-plus"></i>&nbsp;Kavel toevoegen</a>
+                    <a style="margin-left: 10px;"><i class="glyphicon glyphicon-save"></i>CSV downloaden</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <button class="btn btn-primary">Markt bewaren</button>
+</div>

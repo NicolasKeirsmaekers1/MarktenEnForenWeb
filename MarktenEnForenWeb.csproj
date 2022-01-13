@@ -62,6 +62,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="2.4.0" />
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="6.5.0" />
+    <PackageReference Include="System.Text.Json" Version="6.0.1" />
     <PackageReference Include="WebEssentials.AspNetCore.PWA" Version="1.0.59" />
   </ItemGroup>
 
@@ -73,5 +74,51 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ClientApp\app\auth\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Areas\Abonnement\Views\Home\Detail.cshtml" />
+    <None Include="Areas\Abonnement\Views\Home\Index.cshtml" />
+    <None Include="Areas\Abonnement\Views\_ViewStart.cshtml" />
+    <None Include="Areas\Facturatie\Views\Home\Halfjaarlijks.cshtml" />
+    <None Include="Areas\Facturatie\Views\Home\Historiek.cshtml" />
+    <None Include="Areas\Facturatie\Views\Home\Terugbetaling.cshtml" />
+    <None Include="Areas\Facturatie\Views\Home\Tussentijds.cshtml" />
+    <None Include="Areas\Facturatie\Views\_ViewStart.cshtml" />
+    <None Include="Areas\Klant\Views\Home\CommercieleKlanten.cshtml" />
+    <None Include="Areas\Klant\Views\Home\KlantBewerken.cshtml" />
+    <None Include="Areas\Klant\Views\Home\NietCommercieleKlanten.cshtml" />
+    <None Include="Areas\Klant\Views\Home\NieuweKlant.cshtml" />
+    <None Include="Areas\Klant\Views\_ViewStart.cshtml" />
+    <None Include="Areas\Markt\Views\Home\Detail.cshtml" />
+    <None Include="Areas\Markt\Views\Home\MarktBeheren.cshtml" />
+    <None Include="Areas\Markt\Views\Home\MarktBewerken.cshtml" />
+    <None Include="Areas\Markt\Views\Home\Marktboekje.cshtml" />
+    <None Include="Areas\Markt\Views\Home\NieuweMarkt.cshtml" />
+    <None Include="Areas\Markt\Views\Home\Typology.cshtml" />
+    <None Include="Areas\Markt\Views\_ViewStart.cshtml" />
+    <None Include="Areas\Rapportage\Views\Home\CsvExport.cshtml" />
+    <None Include="Areas\Rapportage\Views\_ViewStart.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\Intake.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\IntakeDetail.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\IntakeEdit.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\IntakeNew.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\IntakeNewDetailed.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\PreRegistratie.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\PreregistratieDetail.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\PreregistratieEdit.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\Registratie.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\RegistratieDetail.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\RegistratieEdit.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\RegistratiePerMarkt.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\Reservatie.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\Home\ReservatieDetail.cshtml" />
+    <None Include="Areas\Wachtlijst\Views\_ViewStart.cshtml" />
+    <None Include="Views\Home\AccessDenied.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\NoUserIndex.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\_ViewImports.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
 </Project>

@@ -1,38 +1,43 @@
+using MarktenEnForenWeb.Shared.Constants.Config;
+using MarktenEnForenWeb.Shared.Options._Base;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace MarktenEnForenWeb.Shared.Options
 {
-    public class AppSettings
+    public class AppSettings : SettingsBase
     {
-        public string AppName { get; set; }
-        public string ApplicationId { get; set; }
+        public string ApiKey { get; set; }
         public string ApiUrl { get; set; }
-		public string ApiKey { get; set; }
+        public string AuthUri { get; set; }
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
+        public string MeAuthzAppName { get; set; }
+        public string MeAuthzUri { get; set; }
+        public string TokenUri { get; set; }
+        public string UserInfoUri { get; set; }
 
-        public const string PassThroughPrefix = "passthroughapi"; //this is not environment dependent; NO FORWARD SLASH
-        public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section)
+        public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section, IWebHostEnvironment env)
         {
             services.Configure<AppSettings>(settings =>
             {
                 settings.LoadFromConfigSection(section);
-                settings.OverrideFromEnvironmentVariables();
+                settings.OverrideFromEnvironmentVariables(env);
             });
         }
 
-        private void LoadFromConfigSection(IConfigurationSection section)
+        private void OverrideFromEnvironmentVariables(IWebHostEnvironment env)
         {
-            section.Bind(this);
-        }
-
-        private void OverrideFromEnvironmentVariables()
-        {
-            var env = Environment.GetEnvironmentVariables();
-            AppName = env.Contains("APPSETTINGS_APPNAME") ? env["APPSETTINGS_APPNAME"].ToString() : AppName;
-            ApplicationId = env.Contains("APPSETTINGS_APPLICATIONID") ? env["APPSETTINGS_APPLICATIONID"].ToString() : ApplicationId;
-            ApiUrl = env.Contains("APPSETTINGS_API_URL") ? env["APPSETTINGS_API_URL"].ToString() : ApiUrl;
-            ApiKey = env.Contains("APPSETTINGS_API_APIKEY") ? env["APPSETTINGS_API_APIKEY"].ToString() : ApiKey;
+            ApiKey = GetValue(ApiKey, AppSettingsConfigKey.ApiKey, env);
+            ApiUrl = GetValue(ApiUrl, AppSettingsConfigKey.ApiUrl, env);
+            AuthUri = GetValue(AuthUri, AppSettingsConfigKey.AuthUri, env);
+            ClientId = GetValue(ClientId, AppSettingsConfigKey.ClientId, env);
+            ClientSecret = GetValue(ClientSecret, AppSettingsConfigKey.ClientSecret, env);
+            MeAuthzAppName = GetValue(MeAuthzAppName, AppSettingsConfigKey.MeAuthzAppName, env);
+            MeAuthzUri = GetValue(MeAuthzUri, AppSettingsConfigKey.MeAuthzUri, env);
+            TokenUri = GetValue(TokenUri, AppSettingsConfigKey.TokenUri, env);
+            UserInfoUri = GetValue(UserInfoUri, AppSettingsConfigKey.UserInfoUri, env);
         }
     }
 }

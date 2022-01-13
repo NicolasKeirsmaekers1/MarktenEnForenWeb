@@ -1,0 +1,77 @@
+﻿<div class="row">
+    <h2><a href="#"><i class="fa fa-arrow-circle-o-left lighter"></i></a>Wachtlijst + district + weekdag + locatie + marktnaam</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="input-group">
+            <input class="form-control" type="text">
+            <span class="input-group-addon" style="background-color: #428bca; border-color: #357ebd">
+                <i class="fa fa-search btn-primary" style="background-color: #428bca"></i>
+            </span>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="input-group">
+            <label>
+                <input type="checkbox"> Toon in wacht
+            </label>
+        </div>
+    </div>
+</div>
+
+<div>
+    <form class="ng-pristine ng-valid">
+        <input type="hidden">    
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th width="20%">Type</th>
+                    <th width="10%">Nr</th>
+                    <th width="15%">OND</th>
+                    <th width="15%">Bedrijfsnaam</th>
+                    <th></th>
+                    <th width="10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                <tr class="pointercursor">
+                    <td>Nieuwe plaats</td>
+                    <td>
+                        <p>
+                            01
+                            (01)
+                        </p>
+                    </td>
+                    <td>0629979861</td>
+                    <td>Elen, Michiel</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">
+                        <span class="badge bg-danger">2</span> <i class="fa fa-caret-right"></i>
+                    </td>
+                    <input type="hidden">
+                </tr>
+                <tr class="pointercursor">
+                    <td>Nieuwe plaats</td>
+                    <td>
+                        <p>
+                            02
+                            (02)
+                        </p>
+                    </td>
+                    <td>0888902060</td>
+                    <td>Damoros</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">
+                        <span class="badge bg-danger">4</span> <i class="fa fa-caret-right"></i>
+                    </td>
+                    <input type="hidden">
+                </tr>
+            </tbody>
+        </table>
+        <input type="hidden" name="Filter">
+        <input type="submit" style="display:none">
+    </form>
+</div>

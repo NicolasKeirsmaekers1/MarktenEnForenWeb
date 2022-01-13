@@ -1,0 +1,163 @@
+﻿<h2>Nieuwe klant</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <label class="control-label">Type</label>
+        <form>
+            <div class="radio">
+                <label><input type="radio" name="optradio">Commercieel</label>
+                <label><input type="radio" name="optradio">Niet-commercieel</label>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <label class="control-label">Ondernemingsnummer</label>
+        <div class="input-group">
+            <input class="form-control  text-box single-line" data-val="true" data-val-maxlength="Het ondernemingsnummer mag maximum 14 karakters (incl. punten) lang zijn." data-val-maxlength-max="14" name="Body.Ondernemingsnr" type="text" value="">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Naam onderneming</label>
+            <input class="form-control" type="text">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Juridische entiteit</label>
+            <select class="form-control">
+                <option value="">--</option>
+                <option value="1">Test1</option>
+                <option value="2">Test2</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Telefoon</label>
+            <input class="form-control" type="text">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Fax</label>
+            <input class="form-control" type="text">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">GSM</label>
+            <input class="form-control" type="text">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">E-mail</label>
+            <input class="form-control" type="text">
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="accordion-maatschappelijkezetel">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion-maatschappelijkezetel" href="#collapse-maatschappelijkezetel" class="collapsed">Maatschappelijke zetel</a>
+        </h3>
+    </div>
+    <div id="collapse-maatschappelijkezetel" class="panel-collapse collapse" style="height: 0px;">
+        <div class="panel-body">
+            <div class="row form-group">
+                <div class="col-md-10">
+                    <label class="control-label">Straat</label>
+                    <input class="form-control" type="text">
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label">Nr</label>
+                    <input class="form-control" type="text">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label class="control-label">Postcode</label>
+                    <input class="form-control" type="text">
+                </div>
+                <div class="col-md-8">
+                    <label class="control-label">Gemeente</label>
+                    <input class="form-control" type="text">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="accordion-facturatieadres">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion-facturatieadres" href="#collapse-facturatieadres" class="collapsed">Facturatieadres</a>
+        </h3>
+    </div>
+    <div id="collapse-facturatieadres" class="panel-collapse collapse" style="height: 0px;">
+        <div class="panel-body">
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="">Zelfde als maatschappelijke zetel</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-10">
+                    <label class="control-label">Straat</label>
+                    <input class="form-control" type="text">
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label">Nr</label>
+                    <input class="form-control" type="text">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label class="control-label">Postcode</label>
+                    <input class="form-control" type="text">
+                </div>
+                <div class="col-md-8">
+                    <label class="control-label">Gemeente</label>
+                    <input class="form-control" type="text">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="accordion-contactpersonen">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion-contactpersonen" href="#collapse-contactpersonen" class="collapsed">Contactpersonen</a>
+        </h3>
+    </div>
+    <div id="collapse-contactpersonen" class="panel-collapse collapse" style="height: 0px;">
+        <div class="panel-body">
+            <div class="row input-group">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>&nbsp;Contactpersoon toevoegen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <button type="submit" class="btn btn-primary">Klant bewaren</button>
+</div>

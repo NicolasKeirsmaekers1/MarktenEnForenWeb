@@ -3,6 +3,13 @@
     "AppName": "MarktenEnForenWeb", //TODO check this name
     "ApplicationId": "ea692675-b0bc-4c5d-9d90-968aab7ac681",
     "ApiUrl": "http://localhost:5000/v1/", //TODO Replace by the gateway url to the backend for this application
-    "ApiKey": "" //TODO
+    "ApiKey": "719b39e7-8b2f-4a4b-837a-e108769d7bdf",
+    "ClientId": "19fb43bf-a819-4043-a40b-a07081dee29b",
+    "ClientSecret": "8c78bf7e-3ca2-4d7c-9575-786b392a2cc4",
+    "AuthUri": "https://api-oauth2-o.antwerpen.be/v1/authorize",
+    "TokenUri": "https://api-gw-o.antwerpen.be/astad/mprofiel/v1/oauth2/token",
+    "UserInfoUri": "https://api-gw-o.antwerpen.be/astad/mprofiel/v1/me",
+    "MeAuthzUri": "https://api-gw-o.antwerpen.be/acpaas/meauthz-acc/v2",
+    "MeAuthzAppName": "MARKTENENFOREN"
   }
 }

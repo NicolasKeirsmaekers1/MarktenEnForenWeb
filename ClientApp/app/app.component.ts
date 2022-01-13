@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
+        debugger;
         //refresh token every 20 minutes
         observableInterval(1200000)
             .subscribe((val) => {

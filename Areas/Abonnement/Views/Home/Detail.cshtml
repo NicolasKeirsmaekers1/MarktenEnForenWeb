@@ -1,0 +1,422 @@
+﻿<h2><a href="#"><i class="fa fa-arrow-circle-o-left lighter"></i></a>&nbsp;Naam klant &gt; Abonnement afkorting + datum</h2>
+
+<div class="panel panel-default" id="KlantPaneel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#KlantPaneel" href="#KlantAccordeon">Klant</a>
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <span class="badge pull-right">ondernemingsnummer</span>
+            </div>
+        </div>
+    </div>
+    <div id="KlantAccordeon" class="panel-collapse collapse">
+        <div class="table-responsive panel-body">
+            <div class="row go-to-klant pointercursor">
+                <div class="col-md-3">ondernemingsnummer</div>
+                <div class="col-md-3">
+                    <strong>klantnaam</strong>
+                </div>
+                <div class="col-md-3">
+                    <strong>contactpersoon</strong>
+                </div>
+                <div class="col-md-2">
+                    <i class="fa fa-phone-square"></i>&nbsp;&nbsp;<span class="marked-text">telefoon</span>
+                </div>
+                <div class="col-md-1">
+                    <i class="fa fa-angle-right pull-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="StandplaatsPaneel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#StandplaatsPaneel" href="#StandplaatsAccordeon" class="">Standplaats</a>
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <span class="badge pull-right">Arena</span>
+            </div>
+        </div>
+    </div>
+    <div id="StandplaatsAccordeon" class="panel-collapse collapse" style="height: 0px;">
+        <div class="panel-body">
+            <input type="hidden">
+            <div>
+                <div class="row">
+                    <div class="col-md-3 go-to-markt pointercursor"><strong>Markt</strong></div>
+                    <div class="col-md-3 go-to-markt pointercursor">Arena</div>
+                    <div class="col-md-3"><strong>Aantal kavels</strong></div>
+                    <div class="col-md-3">3 kavels</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><strong>Begindatum</strong></div>
+                    <div class="col-md-3">1/01/2015</div>
+                    <div class="col-md-3"><strong>Einddatum</strong></div>
+                    <div class="col-md-3">/</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><strong>Soort uitstalling</strong></div>
+                    <div class="col-md-3">Kraam</div>
+                    <div class="col-md-3"><strong>Verkoop</strong></div>
+                    <div class="col-md-3">Gewone verkoop</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    PRODUCTEN
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                    <ul>
+                                        <li>
+                                            <strong>Groenten en fruit</strong>
+                                            <br>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><a class="btn btn-primary"><i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;Info&nbsp;standplaats&nbsp;wijzigen</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" style="display: none;"></div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="DieptekavelsPaneel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" [open]="true"  data-parent="#DieptekavelsPaneel" href="#DieptekavelsAccordeon" class="collapsed">Dieptekavels</a>
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <span id="DieptekavelsBadge" class="badge pull-right">Niet in gebruik</span>
+            </div>
+        </div>
+    </div>
+    <input id="DieptekavelsBeschikbaar" name="DieptekavelsBeschikbaar" type="hidden" value="True">
+    <div id="DieptekavelsAccordeon" class="panel-collapse collapse" style="height: 0px;">
+        <div id="DieptekavelsView" class="panel-body" style="display: block;">
+            <input type="hidden">
+            <div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Status</strong>
+                    </div>
+                    <div class="col-md-3">Niet in gebruik</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><strong>Aanvraagdatum gebruik dieptekavels</strong></div>
+                    <div class="col-md-3">/</div>
+                    <div class="col-md-3"><strong>Diepte</strong></div>
+                    <div class="col-md-3">/</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><strong>Begindatum gebruik dieptekavels</strong></div>
+                    <div class="col-md-3">/</div>
+                    <div class="col-md-3"><strong>Einddatum gebruik dieptekavels</strong></div>
+                    <div class="col-md-3">/</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Kavels</strong>
+                    </div>
+                    <div class="col-md-9">
+                        <span class="badge bg-green" style="margin: 2px;">05</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><a class="btn btn-primary"><i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;Info&nbsp;dieptekavels&nbsp;wijzigen</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" style="display: none;"></div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="DieptekavelsHistoriekPaneel">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a data-toggle="collapse" data-parent="#DieptekavelsHistoriekPaneel" href="#DieptekavelsHistoriekAccordeon">Dieptekavels historiek</a>
+        </h3>
+    </div>
+    <div id="DieptekavelsHistoriekAccordeon" class="panel-collapse collapse">
+        <div id="DieptekavelsHistoriekDiv">
+            <div id="DieptekavelsHistoriekDataTable_wrapper" class="dataTables_wrapper" role="grid">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-2 col-md-2">
+                            <div class="dataTables_processing" style="visibility: hidden;">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-10 col-md-10 text-right hide">
+                            <div class="dataTables_filter">
+                                <label>
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" aria-controls="DieptekavelsHistoriekDataTable">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-striped dataTable" width="100%" aria-describedby="DieptekavelsHistoriekDataTable_info" style="width: 100%;">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="DieptekavelsHistoriekDataTable" rowspan="1" colspan="1" style="width: 13px;" aria-label="Wijzigingdatum: activate to sort column ascending">Wijzigingdatum</th>
+                                <th class="sorting_disabled" role="columnheader" tabindex="0" aria-controls="DieptekavelsHistoriekDataTable" rowspan="1" colspan="1" style="width: 10px;" aria-label="Vorige status">Vorige status</th>
+                                <th class="sorting_disabled" role="columnheader" tabindex="0" aria-controls="DieptekavelsHistoriekDataTable" rowspan="1" colspan="1" style="width: 13px;" aria-label="Vorige aanvraagdatum">Vorige aanvraagdatum</th>
+                                <th class="sorting_disabled" role="columnheader" tabindex="0" aria-controls="DieptekavelsHistoriekDataTable" rowspan="1" colspan="1" style="width: 13px;" aria-label="Vorige begindatum">Vorige begindatum</th>
+                                <th class="sorting_disabled" role="columnheader" tabindex="0" aria-controls="DieptekavelsHistoriekDataTable" rowspan="1" colspan="1" style="width: 13px;" aria-label="Vorige einddatum">Vorige einddatum</th>
+                                <th class="sorting_disabled" role="columnheader" tabindex="0" aria-controls="DieptekavelsHistoriekDataTable" rowspan="1" colspan="1" style="width: 10px;" aria-label="Vorige diepte">Vorige diepte</th>
+                                <th class="sorting_disabled" role="columnheader" tabindex="0" aria-controls="DieptekavelsHistoriekDataTable" rowspan="1" colspan="1" style="width: 28px;" aria-label="Vorige kavels">Vorige kavels</th>
+                            </tr>
+                        </thead>
+                        <tbody role="alert" aria-live="polite" aria-relevant="all">
+                            <tr class="odd">
+                                <td valign="top" colspan="7" class="dataTables_empty">Geen records</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="dataTables_length">
+                                <label>
+                                    &nbsp;&nbsp;Toon <select size="1" aria-controls="DieptekavelsHistoriekDataTable">
+                                        <option value="10" selected="selected">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select> records
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-5 text-center">
+                            <div class="dataTables_info">Showing 0 to 0 of 0 entries</div>
+                        </div>
+                        <div class="col-md-5 text-right">
+                            <div class="dataTables_paginate paging_full_numbers">
+                                <a tabindex="0" class="first paginate_button paginate_button_disabled">
+                                    <i class="fa fa-fast-backward"></i>
+                                </a><a tabindex="0" class="previous paginate_button paginate_button_disabled">
+                                    <i class="fa fa-backward"></i>
+                                </a>
+                                <span />
+                                <a tabindex="0" class="next paginate_button paginate_button_disabled">
+                                    <i class="fa fa-forward"></i>
+                                </a><a tabindex="0" class="last paginate_button paginate_button_disabled">
+                                    <i class="fa fa-fast-forward"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="StatusPaneel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#StatusPaneel" href="#StatusAccordeon">Status</a>
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <span id="StatusBadge" class="badge pull-right">Lopend</span>
+            </div>
+        </div>
+    </div>
+    <div id="StatusAccordeon" class="panel-collapse collapse">
+        <div id="StatusView" class="panel-body">
+            <input type="hidden">
+            <div>
+                <div class="row">
+                    <div class="col-md-3"><strong>Status</strong></div>
+                    <div class="col-md-3">Lopend</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><strong>Begindatum status</strong></div>
+                    <div class="col-md-3">1/01/2015</div>
+                    <div class="col-md-3"><strong>Einddatum status</strong></div>
+                    <div class="col-md-3">/</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><a class="btn btn-primary"><i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;Status&nbsp;abonnement&nbsp;wijzigen</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" style="display: none;"></div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="ElektriciteitPaneel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#ElektriciteitPaneel" href="#ElektriciteitAccordeon" class="collapsed">Elektriciteit</a>
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <span id="ElektriciteitBadge" class="badge pull-right">Jaarabonnement gewone aansluiting</span>
+            </div>
+        </div>
+    </div>
+    <div id="ElektriciteitAccordeon" class="panel-collapse collapse" style="height: 0px;">
+        <div id="ElektriciteitView" class="panel-body">
+            <input type="hidden">
+            <div>
+                <div class="row">
+                    <div class="col-md-3"><strong>Behoefte</strong></div>
+                    <div class="col-md-3">Jaarabonnement gewone aansluiting</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><strong>Begindatum elektriciteit</strong></div>
+                    <div class="col-md-3">1/01/2015</div>
+                    <div class="col-md-3"><strong>Einddatum elektriciteit</strong></div>
+                    <div class="col-md-3">/</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><a class="btn btn-primary"><i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;Info&nbsp;elektriciteit&nbsp;wijzigen</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" style="display: none;"></div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="ElektriciteitHistoriekPaneel">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a data-toggle="collapse" data-parent="#ElektriciteitHistoriekPaneel" href="#ElektriciteitHistoriekAccordeon">Elektriciteit historiek</a>
+        </h3>
+    </div>
+    <div id="ElektriciteitHistoriekAccordeon" class="panel-collapse collapse">
+        <div id="ElektriciteitHistoriekDiv" data-ajaxsource="/AbonnementElektriciteitWijziging/GetElektriciteitHistoriek?extraParams=%7B%22AbonnementId%22%3A7248%7D">
+            <div id="ElektriciteitHistoriekDataTable_wrapper" class="dataTables_wrapper" role="grid">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-2 col-md-2">
+                            <div id="ElektriciteitHistoriekDataTable_processing" class="dataTables_processing" style="visibility: hidden;">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-10 col-md-10 text-right hide">
+                            <div class="dataTables_filter" id="ElektriciteitHistoriekDataTable_filter">
+                                <label>
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" aria-controls="ElektriciteitHistoriekDataTable">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <table id="ElektriciteitHistoriekDataTable" class="table table-hover table-striped dataTable" width="100%" aria-describedby="ElektriciteitHistoriekDataTable_info" style="width: 100%;">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="ElektriciteitHistoriekDataTable" rowspan="1" colspan="1" style="width: 15px;" aria-label="Wijzigingdatum: activate to sort column ascending">Wijzigingdatum</th>
+                                <th class="sorting_disabled" role="columnheader" tabindex="0" aria-controls="ElektriciteitHistoriekDataTable" rowspan="1" colspan="1" style="width: 35px;" aria-label="Vorige behoefte">Vorige behoefte</th>
+                                <th class="sorting_disabled" role="columnheader" tabindex="0" aria-controls="ElektriciteitHistoriekDataTable" rowspan="1" colspan="1" style="width: 25px;" aria-label="Vorige begindatum">Vorige begindatum</th>
+                                <th class="sorting_disabled" role="columnheader" tabindex="0" aria-controls="ElektriciteitHistoriekDataTable" rowspan="1" colspan="1" style="width: 25px;" aria-label="Vorige einddatum">Vorige einddatum</th>
+                            </tr>
+                        </thead>
+
+                        <tbody role="alert" aria-live="polite" aria-relevant="all">
+                            <tr class="odd">
+                                <td valign="top" colspan="4" class="dataTables_empty">Geen records</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="dataTables_length">
+                                <label>
+                                    &nbsp;&nbsp;Toon <select size="1" name="ElektriciteitHistoriekDataTable_length" aria-controls="ElektriciteitHistoriekDataTable">
+                                        <option value="10" selected="selected">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select> records
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-5 text-center">
+                            <div class="dataTables_info">Showing 0 to 0 of 0 entries</div>
+                        </div>
+                        <div class="col-md-5 text-right">
+                            <div class="dataTables_paginate paging_full_numbers">
+                                <a tabindex="0" class="first paginate_button paginate_button_disabled">
+                                    <i class="fa fa-fast-backward"></i>
+                                </a><a tabindex="0" class="previous paginate_button paginate_button_disabled">
+                                    <i class="fa fa-backward"></i>
+                                </a>
+                                <span />
+                                <a class="next paginate_button paginate_button_disabled">
+                                    <i class="fa fa-forward"></i>
+                                </a><a class="last paginate_button paginate_button_disabled">
+                                    <i class="fa fa-fast-forward"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

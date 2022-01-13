@@ -26,9 +26,12 @@
               "ClientApp/manifest.webmanifest"
             ],
             "styles": [
-              "ClientApp/styles/styles.scss"
+              "ClientApp/styles/styles.scss",
+              "ClientApp/styles/style.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js"
+            ]
           },
           "configurations": {
             "production": {

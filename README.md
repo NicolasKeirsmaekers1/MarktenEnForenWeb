@@ -1,4 +1,4 @@
-# MarktenEnForenWeb (Angular)
+# NewTestProject (Angular)
 
 ## Prerequisites
 This project runs on
@@ -6,14 +6,15 @@ This project runs on
 * [nodejs v12.11.0](https://nodejs.org/en/download/)  (or higher)
 
 The angular and typescript version are handled by the npm dependencies specified in `Package.json`:
-* Angular core 10.1.6
-* Typescript 4.0.3
+* Angular core 9.0.0
+* Typescript 3.7.5
+* @acpaas-ui/ngx-components 3.3.0
 
 ## TL;DR;
 
  1. From command line in the project source folder as admin: `npm install` 
  2. If you want to do everything in Visual Studio:
-	i. run `npm run build:dev`
+	i. run `npm run build-dev`
 	ii.  Start Visual Studio 
 3. If you want to use Visual studio code:
     i. run `npm run build && dotnet run` from project root
@@ -31,7 +32,7 @@ If running from Visual Studio 2017 or up this should be done automatically but o
 
 Now building the angular part of the project can be done by using the following commands; which are defined in the package.json file:
 
- - `npm run build:dev` will build in development mode
+ - `npm run build-dev` will build in development mode
  - `npm run build` will build for production (with aot)
 
 > It is important to run the production build before deploying as build-dev is more forgiving than build!  Otherwise a build might failed on the server.
@@ -74,14 +75,7 @@ have a look at the TODO comments to know what to look for.
 ## Documentation
 
 This project uses compodoc (https://compodoc.app/) to automatically generate documentation based on the projects components, services, ...
-
-### Generating
-
-To generate your docs run `npm run compodoc:generate`. The generated documentation lives in the documentation directory.
-
-### Serving
-
-To serve your docs run `npm run compodoc:serve`.
+To generate your docs run `npm run compodoc`. The generated documentation lives in the documentation directory, just open the index.html file and you're good to go.
 
 >Note: Angular 9 is still pretty new (don't worry it's stable) CompoDoc isn't supported just yet but will be in the near future.
 
@@ -91,7 +85,7 @@ Chances are you're using swagger for your API docs. You can generate typescript 
 
 1. Rename your swagger file to spec.json
 2. Move the file to the swagger directory in the src directory.
-3. run `npm run swagger:generate` this will generate typescript models inside shared/models/api/defs/ ready for use in your Angular app.
+3. run `npm run swagger-generate` this will generate typescript models inside shared/models/api/defs/ ready for use in your Angular app.
 
 ## Authentication and authorization
 

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "marktenenforenweb": {
+    "newtestproject": {
       "root": "",
       "sourceRoot": "ClientApp",
       "projectType": "application",
@@ -17,21 +17,11 @@
             "tsConfig": "ClientApp/tsconfig.app.json",
             "polyfills": "ClientApp/polyfills.ts",
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules"
-              ]
+              "includePaths": ["node_modules"]
             },
-            "assets": [
-              "ClientApp/assets",
-              "ClientApp/manifest.webmanifest"
-            ],
-            "styles": [
-              "ClientApp/styles/styles.scss",
-              "ClientApp/styles/style.scss"
-            ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js"
-            ]
+            "assets": ["ClientApp/assets", "ClientApp/manifest.webmanifest"],
+            "styles": ["ClientApp/styles/styles.scss"],
+            "scripts": ["node_modules/jquery/dist/jquery.min.js"]
           },
           "configurations": {
             "production": {
@@ -58,19 +48,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "marktenenforenweb:build",
+            "browserTarget": "newtestproject:build",
             "proxyConfig": "proxy.config.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "marktenenforenweb:build:production"
+              "browserTarget": "newtestproject:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "marktenenforenweb:build"
+            "browserTarget": "newtestproject:build"
           }
         },
         "test": {
@@ -81,9 +71,7 @@
             "polyfills": "ClientApp/polyfills.ts",
             "tsConfig": "ClientApp/tsconfig.spec.json",
             "scripts": [],
-            "styles": [
-              "ClientApp/styles/styles.scss"
-            ],
+            "styles": ["ClientApp/styles/styles.scss"],
             "assets": [
               "ClientApp/assets",
               "ClientApp/favicon.ico",
@@ -94,18 +82,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
     },
-    "marktenenforenweb-e2e": {
+    "newtestproject-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -114,24 +97,20 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "marktenenforenweb:serve"
+            "devServerTarget": "newtestproject:serve"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
     }
   },
-  "defaultProject": "marktenenforenweb",
+  "defaultProject": "newtestproject",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
